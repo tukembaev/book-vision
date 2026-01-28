@@ -1,7 +1,7 @@
 import { Box, Heading, Stack, Text } from '@chakra-ui/react';
 
 import { getMockComments } from '../../mocks/commentsDb.mock';
-import { CommentListItem } from './CommentListItem';
+import { CommentListItem } from './CommentListItem.tsx';
 
 export interface CommentsListProps {
   bookId: string;

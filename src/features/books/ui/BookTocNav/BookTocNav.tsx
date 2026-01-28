@@ -57,6 +57,12 @@ export function BookTocNav({ book, parts, activePartId }: BookTocNavProps) {
           <AppLink to={`/books/${book.id}/reviews`} opacity={0.85}>
             Отзывы
           </AppLink>
+          <AppLink to={`/books/${book.id}/context`} opacity={0.85}>
+            Факты и контекст
+          </AppLink>
+          <AppLink to={`/books/${book.id}/playlists`} opacity={0.85}>
+            Плейлисты
+          </AppLink>
         </Stack>
       </Box>
     </Stack>

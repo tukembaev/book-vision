@@ -1,5 +1,5 @@
 import type { ComponentProps } from 'react';
-import { AppProviders } from './AppProviders';
+import { AppProviders } from './AppProviders.tsx';
 
 export const appProvidersMock: ComponentProps<typeof AppProviders> = {
   children: null,

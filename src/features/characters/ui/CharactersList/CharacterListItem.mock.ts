@@ -1,4 +1,4 @@
-import type { CharacterListItemProps } from './CharacterListItem';
+import type { CharacterListItemProps } from './CharacterListItem.tsx';
 import { mockCharactersDb } from '../../mocks/charactersDb.mock';
 
 export const characterListItemMock: CharacterListItemProps = {

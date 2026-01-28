@@ -1,7 +1,7 @@
 import { Box, Heading, Stack, Text } from '@chakra-ui/react';
 
 import type { Character } from '@/types/core';
-import { CharacterListItem } from './CharacterListItem';
+import { CharacterListItem } from './CharacterListItem.tsx';
 
 export interface CharactersListProps {
   characters: Character[];

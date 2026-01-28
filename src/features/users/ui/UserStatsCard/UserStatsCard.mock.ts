@@ -1,4 +1,4 @@
-import type { UserStatsCardProps } from './UserStatsCard';
+import type { UserStatsCardProps } from './UserStatsCard.tsx';
 import { mockUsersDb } from '../../mocks/usersDb.mock';
 
 export const userStatsCardMock: UserStatsCardProps = {

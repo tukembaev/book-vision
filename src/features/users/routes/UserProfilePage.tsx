@@ -1,22 +1,45 @@
-import { Box, Heading, Stack, Text } from '@chakra-ui/react';
-import { useParams } from 'react-router-dom';
+import { Box, Heading, Text } from '@chakra-ui/react';
+import { useParams, useSearchParams } from 'react-router-dom';
 
 import { ThreeColumnLayout } from '@/components/layout/ThreeColumnLayout';
 import { getMockUserById } from '../mocks/usersDb.mock';
 
-import { UserProfileHeader } from '../ui/UserProfileHeader/UserProfileHeader';
-import { UserStatsCard } from '../ui/UserStatsCard/UserStatsCard';
+import {
+  getMockUserProfileByUserId,
+  getProfileSectionFromSearch,
+  isProfileSectionVisible,
+  type ProfileSection,
+} from '../mocks/userProfileDb.mock';
+
+import { ProfileSidebar } from '../ui/Profile/ProfileSidebar.tsx';
+import { ProfileOverviewCenter } from '../ui/Profile/ProfileOverviewCenter.tsx';
+import { ProfileHelpCenter } from '../ui/Profile/ProfileHelpCenter.tsx';
+import { ProfileReadCenter } from '../ui/Profile/ProfileReadCenter.tsx';
+import { ProfileReviewsCenter } from '../ui/Profile/ProfileReviewsCenter.tsx';
+import { ProfileAchievementsCenter } from '../ui/Profile/ProfileAchievementsCenter.tsx';
+import { ProfileChallengesCenter } from '../ui/Profile/ProfileChallengesCenter.tsx';
+import { ProfileFavoritesCenter } from '../ui/Profile/ProfileFavoritesCenter.tsx';
+import { ProfileSettingsCenter } from '../ui/Profile/ProfileSettingsCenter.tsx';
+import { ProfileRightSidebar } from '../ui/Profile/ProfileRightSidebar.tsx';
 
 export default function UserProfilePage() {
   const { userId } = useParams();
+  const [searchParams] = useSearchParams();
 
   if (!userId) {
     return null;
   }
 
   const user = getMockUserById(userId);
+  const profile = getMockUserProfileByUserId(userId);
 
-  if (!user) {
+  const currentUserId = 'u1';
+  const isSelf = userId === currentUserId;
+
+  const rawSection: ProfileSection = getProfileSectionFromSearch(searchParams.get('section'));
+  const section: ProfileSection = isProfileSectionVisible(rawSection, isSelf) ? rawSection : 'overview';
+
+  if (!user || !profile) {
     return (
       <Box>
         <Heading as="h2" size="md" fontWeight="600">
@@ -32,30 +55,34 @@ export default function UserProfilePage() {
   return (
     <ThreeColumnLayout
       left={
-        <Box>
-          <Heading as="h3" size="sm" fontWeight="600">
-            Навигация
-          </Heading>
-          <Text mt="2" opacity={0.8}>
-            В будущем: друзья, активность, подборки.
-          </Text>
-        </Box>
+        <ProfileSidebar
+          user={user}
+          profile={profile}
+          isSelf={isSelf}
+          activeSection={section}
+          basePath={`/users/${userId}`}
+        />
       }
       center={
-        <Stack gap="4">
-          <UserProfileHeader user={user} />
-
-          <Box>
-            <Heading as="h3" size="sm" fontWeight="600">
-              Прочитанные книги
-            </Heading>
-            <Text mt="2" opacity={0.8}>
-              Заготовка. Позже добавим историю чтения (start/end), streak и аналитику.
-            </Text>
-          </Box>
-        </Stack>
+        section === 'help' ? (
+          <ProfileHelpCenter profile={profile} />
+        ) : section === 'read' ? (
+          <ProfileReadCenter profile={profile} />
+        ) : section === 'reviews' ? (
+          <ProfileReviewsCenter userId={userId} />
+        ) : section === 'achievements' ? (
+          <ProfileAchievementsCenter profile={profile} />
+        ) : section === 'challenges' ? (
+          <ProfileChallengesCenter />
+        ) : section === 'favorites' ? (
+          <ProfileFavoritesCenter profile={profile} />
+        ) : section === 'settings' ? (
+          <ProfileSettingsCenter user={user} isSelf={isSelf} />
+        ) : (
+          <ProfileOverviewCenter user={user} profile={profile} />
+        )
       }
-      right={<UserStatsCard user={user} />}
+      right={<ProfileRightSidebar section={section} profile={profile} user={user} />}
     />
   );
 }

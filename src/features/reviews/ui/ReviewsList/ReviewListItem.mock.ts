@@ -1,4 +1,4 @@
-import type { ReviewListItemProps } from './ReviewListItem';
+import type { ReviewListItemProps } from './ReviewListItem.tsx';
 import { mockReviewsDb } from '../../mocks/reviewsDb.mock';
 
 export const reviewListItemMock: ReviewListItemProps = {

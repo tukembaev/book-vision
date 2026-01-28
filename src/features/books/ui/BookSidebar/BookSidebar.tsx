@@ -64,9 +64,14 @@ export function BookSidebar({ book, parts, characters }: BookSidebarProps) {
         <Heading as="h3" size="sm" fontWeight="600">
           Плейлисты
         </Heading>
-        <Text mt="2" opacity={0.8}>
-          Заготовка. Позже: пользовательские и auto-suggested по mood.
-        </Text>
+        <Stack mt="2" gap="1">
+          <Text opacity={0.8}>
+            Позже: пользовательские и auto-suggested по mood.
+          </Text>
+          <AppLink to={`/books/${book.id}/playlists`} opacity={0.85}>
+            Открыть плейлисты
+          </AppLink>
+        </Stack>
       </Box>
     </Stack>
   );

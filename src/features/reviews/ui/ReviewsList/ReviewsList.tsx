@@ -1,7 +1,7 @@
 import { Box, Heading, Stack, Text } from '@chakra-ui/react';
 
 import type { Review } from '@/types/core';
-import { ReviewListItem } from './ReviewListItem';
+import { ReviewListItem } from './ReviewListItem.tsx';
 
 export interface ReviewsListProps {
   reviews: Review[];

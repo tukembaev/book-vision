@@ -26,6 +26,10 @@ export interface Book {
   author: string;
   year?: number;
 
+  genres?: string[];
+  ageRating?: '6+' | '12+' | '16+' | '18+';
+  authorCountry?: string;
+
   description: string;
   coverUrl?: string;
 
@@ -134,4 +138,60 @@ export interface Challenge {
   targetCount: number;
 
   rewardPoints: number;
+}
+
+export type FeedItemType = 'review' | 'comment' | 'word' | 'quote' | 'help';
+
+export interface FeedItem {
+  id: string;
+  type: FeedItemType;
+  userId: string;
+  createdAt: string;
+
+  title: string;
+  text: string;
+
+  bookId?: string;
+  characterId?: string;
+}
+
+export interface Quote {
+  id: string;
+  userId: string;
+  bookId: string;
+  partId?: string;
+  text: string;
+  createdAt: string;
+}
+
+export interface CharacterIllustration {
+  id: string;
+  imageUrl?: string;
+  authorName: string;
+}
+
+export interface CharacterProfile {
+  id: string;
+  bookId: string;
+  name: string;
+  aliases: string[];
+
+  imageUrl?: string;
+
+  stats: {
+    age?: string;
+    height?: string;
+    weight?: string;
+    socialStatus?: string;
+  };
+
+  illustrations: CharacterIllustration[];
+
+  descriptionNoSpoilers: string;
+  descriptionSpoilers: string;
+
+  quotesNoSpoilers: string[];
+  quotesSpoilers: string[];
+
+  favoritedByUserIds: string[];
 }
