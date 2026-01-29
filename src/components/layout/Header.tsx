@@ -16,6 +16,7 @@ export function Header() {
         <Flex align="center" gap="4">
           <AppLink to="/feed">Лента</AppLink>
           <AppLink to="/books">Книги</AppLink>
+          <AppLink to="/articles">Статьи</AppLink>
           <AppLink to="/characters">Персонажи</AppLink>
           <AppLink to="/challenges">Челленджи</AppLink>
           <AppLink to="/users/u1">Профиль</AppLink>

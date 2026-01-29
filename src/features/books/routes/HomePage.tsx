@@ -23,6 +23,9 @@ export default function HomePage() {
             <AppLink to="/feed" opacity={0.9}>
               Лента
             </AppLink>
+            <AppLink to="/articles" opacity={0.9}>
+              Статьи
+            </AppLink>
             <AppLink to="/books" opacity={0.9}>
               Книги
             </AppLink>

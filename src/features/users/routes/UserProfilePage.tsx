@@ -1,14 +1,12 @@
-import { Box, Heading, Text } from '@chakra-ui/react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { Box, Heading, Text, Tabs } from '@chakra-ui/react';
+import { useParams } from 'react-router-dom';
 
 import { ThreeColumnLayout } from '@/components/layout/ThreeColumnLayout';
 import { getMockUserById } from '../mocks/usersDb.mock';
 
 import {
   getMockUserProfileByUserId,
-  getProfileSectionFromSearch,
-  isProfileSectionVisible,
-  type ProfileSection,
+  getDefaultProfileSections,
 } from '../mocks/userProfileDb.mock';
 
 import { ProfileSidebar } from '../ui/Profile/ProfileSidebar.tsx';
@@ -16,15 +14,11 @@ import { ProfileOverviewCenter } from '../ui/Profile/ProfileOverviewCenter.tsx';
 import { ProfileHelpCenter } from '../ui/Profile/ProfileHelpCenter.tsx';
 import { ProfileReadCenter } from '../ui/Profile/ProfileReadCenter.tsx';
 import { ProfileReviewsCenter } from '../ui/Profile/ProfileReviewsCenter.tsx';
-import { ProfileAchievementsCenter } from '../ui/Profile/ProfileAchievementsCenter.tsx';
 import { ProfileChallengesCenter } from '../ui/Profile/ProfileChallengesCenter.tsx';
-import { ProfileFavoritesCenter } from '../ui/Profile/ProfileFavoritesCenter.tsx';
 import { ProfileSettingsCenter } from '../ui/Profile/ProfileSettingsCenter.tsx';
-import { ProfileRightSidebar } from '../ui/Profile/ProfileRightSidebar.tsx';
 
 export default function UserProfilePage() {
   const { userId } = useParams();
-  const [searchParams] = useSearchParams();
 
   if (!userId) {
     return null;
@@ -35,9 +29,6 @@ export default function UserProfilePage() {
 
   const currentUserId = 'u1';
   const isSelf = userId === currentUserId;
-
-  const rawSection: ProfileSection = getProfileSectionFromSearch(searchParams.get('section'));
-  const section: ProfileSection = isProfileSectionVisible(rawSection, isSelf) ? rawSection : 'overview';
 
   if (!user || !profile) {
     return (
@@ -52,37 +43,46 @@ export default function UserProfilePage() {
     );
   }
 
+  const tabs = getDefaultProfileSections(isSelf);
+
   return (
-    <ThreeColumnLayout
-      left={
-        <ProfileSidebar
-          user={user}
-          profile={profile}
-          isSelf={isSelf}
-          activeSection={section}
-          basePath={`/users/${userId}`}
-        />
-      }
-      center={
-        section === 'help' ? (
-          <ProfileHelpCenter profile={profile} />
-        ) : section === 'read' ? (
-          <ProfileReadCenter profile={profile} />
-        ) : section === 'reviews' ? (
-          <ProfileReviewsCenter userId={userId} />
-        ) : section === 'achievements' ? (
-          <ProfileAchievementsCenter profile={profile} />
-        ) : section === 'challenges' ? (
-          <ProfileChallengesCenter />
-        ) : section === 'favorites' ? (
-          <ProfileFavoritesCenter profile={profile} />
-        ) : section === 'settings' ? (
-          <ProfileSettingsCenter user={user} isSelf={isSelf} />
-        ) : (
-          <ProfileOverviewCenter user={user} profile={profile} />
-        )
-      }
-      right={<ProfileRightSidebar section={section} profile={profile} user={user} />}
-    />
+    <Box height={{ base: 'auto', lg: 'calc(100vh - 96px)' }} overflow={{ base: 'visible', lg: 'hidden' }}>
+      <ThreeColumnLayout
+        left={<ProfileSidebar user={user} profile={profile} isSelf={isSelf} />}
+        center={
+          <Box height={{ base: 'auto', lg: '100%' }} overflowY={{ base: 'visible', lg: 'auto' }} pr={{ base: 0, lg: 1 }}>
+            <Tabs.Root defaultValue={tabs[0]?.key ?? 'overview'} variant="line" justify="center">
+              <Tabs.List>
+                {tabs.map((t) => (
+                  <Tabs.Trigger key={t.key} value={t.key}>
+                    {t.title}
+                  </Tabs.Trigger>
+                ))}
+                <Tabs.Indicator />
+              </Tabs.List>
+
+              {tabs.map((t) => (
+                <Tabs.Content key={t.key} value={t.key} pt="4">
+                  {t.key === 'help' ? (
+                    <ProfileHelpCenter profile={profile} />
+                  ) : t.key === 'read' ? (
+                    <ProfileReadCenter profile={profile} />
+                  ) : t.key === 'reviews' ? (
+                    <ProfileReviewsCenter userId={userId} />
+                  ) : t.key === 'challenges' ? (
+                    <ProfileChallengesCenter />
+                  ) : t.key === 'settings' ? (
+                    <ProfileSettingsCenter user={user} isSelf={isSelf} />
+                  ) : (
+                    <ProfileOverviewCenter profile={profile} />
+                  )}
+                </Tabs.Content>
+              ))}
+            </Tabs.Root>
+          </Box>
+        }
+        right={null}
+      />
+    </Box>
   );
 }

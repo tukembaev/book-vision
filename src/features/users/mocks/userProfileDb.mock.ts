@@ -5,9 +5,7 @@ export type ProfileSection =
   | 'read'
   | 'reviews'
   | 'help'
-  | 'achievements'
   | 'challenges'
-  | 'favorites'
   | 'settings';
 
 export type VerificationStatus = 'AI' | 'Community' | 'None';
@@ -243,9 +241,7 @@ export function getProfileSectionFromSearch(value: string | null): ProfileSectio
     case 'read':
     case 'reviews':
     case 'help':
-    case 'achievements':
     case 'challenges':
-    case 'favorites':
     case 'settings':
       return value;
     default:
@@ -266,9 +262,7 @@ export function getDefaultProfileSections(isSelf: boolean) {
     { key: 'read', title: 'Прочитанные книги' },
     { key: 'reviews', title: 'Отзывы' },
     { key: 'help', title: 'Помощь сообществу ⭐' },
-    { key: 'achievements', title: 'Достижения' },
     { key: 'challenges', title: 'Челленджи' },
-    { key: 'favorites', title: 'Избранное' },
   ];
 
   if (isSelf) {

@@ -1,17 +1,13 @@
 import { Box, Heading, Stack, Text } from '@chakra-ui/react';
 
 import { AppLink } from '@/components/navigation/AppLink.tsx';
-import type { User } from '@/types/core';
 import type { UserProfileDashboard } from '../../mocks/userProfileDb.mock';
 
 export interface ProfileOverviewCenterProps {
-  user: User;
   profile: UserProfileDashboard;
 }
 
-export function ProfileOverviewCenter({ user, profile }: ProfileOverviewCenterProps) {
-  const contributionsCount = profile.contributions.length;
-
+export function ProfileOverviewCenter({ profile }: ProfileOverviewCenterProps) {
   return (
     <Stack gap="5">
       <Box>
@@ -22,15 +18,6 @@ export function ProfileOverviewCenter({ user, profile }: ProfileOverviewCenterPr
           Личная хроника: последние действия и срез статистики.
         </Text>
       </Box>
-
-      <Stack gap="2">
-        <Heading as="h3" size="sm" fontWeight="600">
-          Краткая статистика
-        </Heading>
-        <Text opacity={0.85}>Книг прочитано: {user.stats.booksRead}</Text>
-        <Text opacity={0.85}>Отзывов: {user.stats.reviewsCount}</Text>
-        <Text opacity={0.85}>Вкладов в сообщество: {contributionsCount}</Text>
-      </Stack>
 
       <Box>
         <Heading as="h3" size="sm" fontWeight="600">

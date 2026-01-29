@@ -195,3 +195,54 @@ export interface CharacterProfile {
 
   favoritedByUserIds: string[];
 }
+
+export type ArticleType =
+  | 'shouldRead'
+  | 'analysis'
+  | 'review'
+  | 'collection'
+  | 'guide'
+  | 'comparison'
+  | 'discussion';
+
+export type ArticleReadiness = 'must' | 'maybe' | 'no';
+
+export type ArticleContentBlock =
+  | {
+      type: 'h2' | 'h3';
+      text: string;
+      id?: string;
+    }
+  | {
+      type: 'p' | 'quote';
+      text: string;
+    };
+
+export interface Article {
+  id: string;
+  title: string;
+  type: ArticleType;
+
+  authorId: string;
+  bookId: string;
+
+  excerpt: string;
+  createdAt: string;
+
+  likes: number;
+  views: number;
+
+  readingMinutes?: number;
+
+  status?: {
+    verified: boolean;
+    verificationType?: 'AI' | 'Community';
+  };
+
+  noSpoilers: boolean;
+  shouldRead?: {
+    readiness: ArticleReadiness;
+  };
+
+  content?: ArticleContentBlock[];
+}

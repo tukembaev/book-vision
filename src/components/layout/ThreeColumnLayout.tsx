@@ -8,15 +8,17 @@ export interface ThreeColumnLayoutProps {
 }
 
 export function ThreeColumnLayout({ left, center, right }: ThreeColumnLayoutProps) {
+  const hasRight = Boolean(right);
+
   return (
     <Grid
       gap="6"
       alignItems="start"
-      templateColumns={{ base: '1fr', lg: '260px 1fr 320px' }}
+      templateColumns={{ base: '1fr', lg: hasRight ? '260px 1fr 320px' : '260px 1fr' }}
     >
       <GridItem>{left}</GridItem>
       <GridItem>{center}</GridItem>
-      <GridItem>{right}</GridItem>
+      {hasRight ? <GridItem>{right}</GridItem> : null}
     </Grid>
   );
 }

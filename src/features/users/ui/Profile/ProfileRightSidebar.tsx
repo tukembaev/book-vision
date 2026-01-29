@@ -137,25 +137,6 @@ export function ProfileRightSidebar({ section, profile, user }: ProfileRightSide
     );
   }
 
-  if (section === 'favorites') {
-    return (
-      <Stack gap="4">
-        <SocialCard profile={profile} />
-
-        <Box borderWidth="1px" borderRadius="md" p="4">
-          <Heading as="h3" size="sm" fontWeight="600">
-            Избранное — срез
-          </Heading>
-          <Stack mt="3" gap="1">
-            <Text opacity={0.85}>Книг: {profile.favorites.bookIds.length}</Text>
-            <Text opacity={0.85}>Персонажей: {profile.favorites.characterIds.length}</Text>
-            <Text opacity={0.85}>Цитат: {profile.favorites.quoteIds.length}</Text>
-          </Stack>
-        </Box>
-      </Stack>
-    );
-  }
-
   if (section === 'settings') {
     return (
       <Stack gap="4">

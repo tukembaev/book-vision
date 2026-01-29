@@ -12,6 +12,7 @@ export default function BooksFeedPage() {
           title="Главная"
           subtitle="Лента книг (mock). Перейди в книгу, чтобы увидеть 3-колоночную страницу и оглавление."
         />
+       
         <BooksFeedList books={mockBooksDb} />
       </Stack>
     </Box>

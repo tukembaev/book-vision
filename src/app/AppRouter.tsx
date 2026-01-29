@@ -16,6 +16,8 @@ const BookPlaylistsPage = lazy(() => import('../features/books/routes/BookPlayli
 const CharactersPage = lazy(() => import('../features/characters/routes/CharactersPage'));
 const CharacterPage = lazy(() => import('../features/characters/routes/CharacterPage'));
 const ChallengesPage = lazy(() => import('../features/challenges/routes/ChallengesPage'));
+const ArticlesPage = lazy(() => import('../features/articles/routes/ArticlesPage'));
+const ArticlePage = lazy(() => import('../features/articles/routes/ArticlePage'));
 const UserProfilePage = lazy(() => import('../features/users/routes/UserProfilePage'));
 const NotFoundPage = lazy(() => import('./NotFoundPage'));
 
@@ -43,6 +45,8 @@ export function AppRouter() {
             <Route path="characters" element={<CharactersPage />} />
             <Route path="characters/:characterId" element={<CharacterPage />} />
             <Route path="challenges" element={<ChallengesPage />} />
+            <Route path="articles" element={<ArticlesPage />} />
+            <Route path="articles/:articleId" element={<ArticlePage />} />
             <Route path="users/:userId" element={<UserProfilePage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
