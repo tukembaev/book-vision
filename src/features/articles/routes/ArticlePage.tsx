@@ -31,6 +31,8 @@ import { slugifyHeading, useScrollSpy } from '../lib/scrollSpy';
 
 type AuthorPeriod = 'week' | 'month';
 
+const NOW = Date.now();
+
 type TocItem = { id: string; text: string; level: 2 | 3 };
 
 function getUserById(userId: string) {
@@ -85,33 +87,17 @@ export default function ArticlePage() {
   const visibleSections = useArticlesPreferencesStore((s) => s.visibleSections);
   const toggleSection = useArticlesPreferencesStore((s) => s.toggleSection);
 
-  if (!articleId) {
-    return null;
-  }
-
-  const article = getMockArticleById(articleId);
-
-  if (!article) {
-    return (
-      <Box>
-        <Heading as="h2" size="md" fontWeight="600">
-          Статья не найдена
-        </Heading>
-        <Text mt="2" opacity={0.8}>
-          Нет статьи с id: {articleId}
-        </Text>
-      </Box>
-    );
-  }
-
-  const author = getUserById(article.authorId);
-  const bookFromArticle = getBookById(article.bookId);
+  const article = useMemo(() => {
+    if (!articleId) return null;
+    return getMockArticleById(articleId) ?? null;
+  }, [articleId]);
 
   const selectedBook = useMemo(() => {
     const fromUrl = searchParams.get('book');
-    const bookId = selectedBookIdOverride ?? fromUrl ?? article.bookId;
+    const bookId = selectedBookIdOverride ?? fromUrl ?? article?.bookId ?? null;
+    if (!bookId) return null;
     return getBookById(bookId) ?? null;
-  }, [article.bookId, searchParams, selectedBookIdOverride]);
+  }, [article?.bookId, searchParams, selectedBookIdOverride]);
 
   const bookSearchResults = useMemo(() => {
     const q = bookQuery.trim().toLowerCase();
@@ -122,10 +108,13 @@ export default function ArticlePage() {
       .slice(0, 6);
   }, [bookQuery]);
 
-  const contentBlocks: ArticleContentBlock[] =
-    article.content && article.content.length > 0 ? article.content : buildFallbackContent(article);
+  const contentBlocks = useMemo((): ArticleContentBlock[] => {
+    if (!article) return [] as ArticleContentBlock[];
+    return article.content && article.content.length > 0 ? article.content : buildFallbackContent(article);
+  }, [article]);
 
   const toc: TocItem[] = useMemo(() => {
+    if (!article) return [] as TocItem[];
     const headings: TocItem[] = contentBlocks
       .filter((b): b is Extract<ArticleContentBlock, { type: 'h2' | 'h3' }> =>
         b.type === 'h2' || b.type === 'h3'
@@ -152,29 +141,39 @@ export default function ArticlePage() {
         return { ...h, id: nextId };
       })
       .slice(0, 40);
-  }, [article.id, contentBlocks]);
+  }, [article, contentBlocks]);
+
+  const author = useMemo(() => {
+    if (!article) return undefined;
+    return getUserById(article.authorId);
+  }, [article]);
+
+  const bookFromArticle = useMemo(() => {
+    if (!article) return undefined;
+    return getBookById(article.bookId);
+  }, [article]);
 
   const showToc = toc.length >= 4;
   const activeTocId = useScrollSpy(
-    showToc ? toc.map((t) => t.id) : [],
+    toc.map((t) => t.id),
     showToc ? { rootMargin: '0px 0px -70% 0px' } : undefined
   );
 
-  const readingMinutes = article.readingMinutes ?? computeReadingMinutes(contentBlocks);
+  const readingMinutes = article?.readingMinutes ?? computeReadingMinutes(contentBlocks);
 
   const allByBook = useMemo(() => {
     return selectedBook ? getMockArticlesByBookId(selectedBook.id) : [];
   }, [selectedBook]);
 
   const otherByBook = useMemo(() => {
-    if (!selectedBook) return [] as Article[];
+    if (!selectedBook || !article) return [] as Article[];
 
     return allByBook
       .filter((a) => a.id !== article.id)
       .slice()
       .sort((a, b) => b.likes - a.likes)
       .slice(0, 5);
-  }, [allByBook, article.id, selectedBook]);
+  }, [allByBook, article, selectedBook]);
 
   const byBookShouldRead = useMemo(() => {
     return allByBook
@@ -193,7 +192,6 @@ export default function ArticlePage() {
   }, [allByBook]);
 
   const activeAuthors = useMemo(() => {
-    const now = Date.now();
     const ms = authorPeriod === 'week' ? 7 * 24 * 60 * 60 * 1000 : 30 * 24 * 60 * 60 * 1000;
 
     const stats = new Map<string, { score: number; articles: number }>();
@@ -201,7 +199,7 @@ export default function ArticlePage() {
     for (const a of getMockArticles()) {
       const dt = new Date(a.createdAt).getTime();
       if (!Number.isFinite(dt)) continue;
-      if (now - dt > ms) continue;
+      if (NOW - dt > ms) continue;
 
       const prev = stats.get(a.authorId) ?? { score: 0, articles: 0 };
       stats.set(a.authorId, {
@@ -221,6 +219,23 @@ export default function ArticlePage() {
   }, [authorPeriod]);
 
   const isSubscribedToAuthor = author ? Boolean(subscribedAuthorIds[author.id]) : false;
+
+  if (!articleId) {
+    return null;
+  }
+
+  if (!article) {
+    return (
+      <Box>
+        <Heading as="h2" size="md" fontWeight="600">
+          Статья не найдена
+        </Heading>
+        <Text mt="2" opacity={0.8}>
+          Нет статьи с id: {articleId}
+        </Text>
+      </Box>
+    );
+  }
 
   return (
     <ThreeColumnLayout
@@ -618,15 +633,16 @@ function SidebarArticleList({ title, items }: { title: string; items: Article[] 
 }
 
 function ArticleContent({ blocks, toc }: { blocks: ArticleContentBlock[]; toc: TocItem[] }) {
-  let headingIndex = 0;
-
   return (
     <Stack gap="4" lineHeight={1.8} fontSize={{ base: 'md', lg: 'lg' }}>
       {blocks.map((b, idx) => {
         if (b.type === 'h2' || b.type === 'h3') {
+          const headingIndex = blocks
+            .slice(0, idx)
+            .filter((x): x is Extract<ArticleContentBlock, { type: 'h2' | 'h3' }> => x.type === 'h2' || x.type === 'h3')
+            .length;
           const tocItem = toc[headingIndex];
           const headingId = tocItem?.id ?? `article-heading-${idx}`;
-          headingIndex += 1;
 
           return (
             <Heading

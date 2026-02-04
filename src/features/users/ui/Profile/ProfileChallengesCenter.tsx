@@ -26,14 +26,14 @@ export function ProfileChallengesCenter({ initialTab = 'active' }: ProfileChalle
 
       <Flex gap="2" wrap="wrap">
         <Button size="sm" variant={tab === 'active' ? 'solid' : 'outline'} onClick={() => setTab('active')}>
-          активные
+          Активные
         </Button>
         <Button
           size="sm"
           variant={tab === 'completed' ? 'solid' : 'outline'}
           onClick={() => setTab('completed')}
         >
-          выполненные
+          Выполненные
         </Button>
       </Flex>
 

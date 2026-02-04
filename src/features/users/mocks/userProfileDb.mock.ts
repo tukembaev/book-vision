@@ -1,16 +1,24 @@
 import type { User } from '@/types/core';
 
 export type ProfileSection =
-  | 'overview'
-  | 'read'
-  | 'reviews'
+  | 'library'
+  | 'libraryV2'
+  | 'stats'
+  | 'activity'
   | 'help'
-  | 'challenges'
-  | 'settings';
+  | 'challenges';
 
 export type VerificationStatus = 'AI' | 'Community' | 'None';
 
 export type UserActivityType = 'review' | 'comment' | 'quote' | 'word' | 'context';
+
+export type UserLibraryStatus = 'planned' | 'watching' | 'rewatching' | 'watched' | 'onHold' | 'dropped';
+
+export interface UserLibraryEntry {
+  bookId: string;
+  status: UserLibraryStatus;
+  createdAt: string;
+}
 
 export interface UserActivityItem {
   id: string;
@@ -62,6 +70,8 @@ export interface UserProfileDashboard {
   social: UserProfileSocial;
   favorites: UserFavorites;
 
+  library: UserLibraryEntry[];
+
   reading: UserReadingEntry[];
   activity: UserActivityItem[];
   contributions: UserActivityItem[];
@@ -83,6 +93,14 @@ export const mockUserProfilesDb: UserProfileDashboard[] = [
       characterIds: ['c1', 'c2'],
       quoteIds: ['q1', 'q3'],
     },
+    library: [
+      { bookId: '1', status: 'watched', createdAt: '2026-01-10T10:00:00.000Z' },
+      { bookId: '2', status: 'watching', createdAt: '2026-01-20T10:00:00.000Z' },
+      { bookId: '3', status: 'planned', createdAt: '2026-01-28T10:00:00.000Z' },
+      { bookId: '4', status: 'onHold', createdAt: '2026-01-15T10:00:00.000Z' },
+      { bookId: '5', status: 'dropped', createdAt: '2026-01-12T10:00:00.000Z' },
+      { bookId: '6', status: 'rewatching', createdAt: '2026-01-18T10:00:00.000Z' },
+    ],
     reading: [
       {
         bookId: '1',
@@ -217,6 +235,7 @@ export const mockUserProfilesDb: UserProfileDashboard[] = [
       characterIds: ['c2'],
       quoteIds: ['q2'],
     },
+    library: [{ bookId: '2', status: 'watched', createdAt: '2026-01-12T10:00:00.000Z' }],
     reading: [
       {
         bookId: '2',
@@ -237,37 +256,33 @@ export function getMockUserProfileByUserId(userId: string) {
 
 export function getProfileSectionFromSearch(value: string | null): ProfileSection {
   switch (value) {
-    case 'overview':
-    case 'read':
-    case 'reviews':
+    case 'library':
+    case 'stats':
+    case 'activity':
     case 'help':
     case 'challenges':
-    case 'settings':
       return value;
     default:
-      return 'overview';
+      return 'library';
   }
 }
 
-export function isProfileSectionVisible(section: ProfileSection, isSelf: boolean) {
-  if (section === 'settings') {
-    return isSelf;
-  }
+export function isProfileSectionVisible(_section: ProfileSection, _isSelf: boolean) {
+  void _section;
+  void _isSelf;
   return true;
 }
 
-export function getDefaultProfileSections(isSelf: boolean) {
+export function getDefaultProfileSections(_isSelf: boolean) {
+  void _isSelf;
   const sections: { key: ProfileSection; title: string }[] = [
-    { key: 'overview', title: 'Обзор' },
-    { key: 'read', title: 'Прочитанные книги' },
-    { key: 'reviews', title: 'Отзывы' },
+    { key: 'library', title: 'Библиотека' },
+    { key: 'libraryV2', title: 'БиблиотекаV2' },
+    { key: 'stats', title: 'Статистика' },
+    { key: 'activity', title: 'Активность' },
     { key: 'help', title: 'Помощь сообществу ⭐' },
     { key: 'challenges', title: 'Челленджи' },
   ];
-
-  if (isSelf) {
-    sections.push({ key: 'settings', title: 'Настройки' });
-  }
 
   return sections;
 }

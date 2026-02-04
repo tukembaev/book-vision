@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Heading, Stack, Text } from '@chakra-ui/react';
+import { Box, Button, Grid, Stack, Text } from '@chakra-ui/react';
 import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
@@ -188,14 +188,7 @@ export default function BooksPage() {
 
   return (
     <Stack gap="6">
-      <Box>
-        <Heading as="h2" size="md" fontWeight="700">
-          Каталог книг
-        </Heading>
-        <Text mt="2" opacity={0.8}>
-          Быстрый обзор + умный отбор (mock).
-        </Text>
-      </Box>
+     
 
       <Grid gap="6" alignItems="start" templateColumns={{ base: '1fr', lg: '1fr 320px' }}>
         <Stack gap="4">
@@ -220,8 +213,10 @@ export default function BooksPage() {
           )}
         </Stack>
 
-        <Box position={{ base: 'static', lg: 'sticky' }} top={{ lg: '6' }} maxH={{ lg: 'calc(100vh - 24px)' }}>
-          <Box overflowY={{ lg: 'auto' }} maxH={{ lg: 'calc(100vh - 24px)' }}>
+        <Box display={{ base: 'block', lg: 'block' }} w={{ base: 'auto', lg: '320px' }}>
+          <Box
+            display={{ base: 'block', lg: 'none' }}
+          >
             <BooksCatalogFilters
               selectedGenres={selectedGenres}
               onSelectedGenresChange={handleSelectedGenresChange}
@@ -242,6 +237,36 @@ export default function BooksPage() {
               canReset={canReset}
               onReset={handleReset}
             />
+          </Box>
+
+          <Box display={{ base: 'none', lg: 'block' }}>
+            <Box
+              position="fixed"
+              w="320px"
+              top="80px"
+              bottom="24px"
+            >
+              <BooksCatalogFilters
+                selectedGenres={selectedGenres}
+                onSelectedGenresChange={handleSelectedGenresChange}
+                selectedAgeRatings={selectedAgeRatings}
+                onSelectedAgeRatingsChange={handleSelectedAgeRatingsChange}
+                selectedSizes={selectedSizes}
+                onSelectedSizesChange={handleSelectedSizesChange}
+                selectedCountries={selectedCountries}
+                onSelectedCountriesChange={handleSelectedCountriesChange}
+                yearFrom={yearFrom}
+                onYearFromChange={handleYearFromChange}
+                yearTo={yearTo}
+                onYearToChange={handleYearToChange}
+                ratingFrom={ratingFrom}
+                onRatingFromChange={handleRatingFromChange}
+                ratingTo={ratingTo}
+                onRatingToChange={handleRatingToChange}
+                canReset={canReset}
+                onReset={handleReset}
+              />
+            </Box>
           </Box>
         </Box>
       </Grid>

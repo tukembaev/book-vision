@@ -27,6 +27,8 @@ import {
   type ArticleSectionId,
 } from '../model/articlesPreferences.store';
 
+const NOW = Date.now();
+
 type AuthorPeriod = 'week' | 'month';
 
 function getUserById(userId: string) {
@@ -187,7 +189,6 @@ export default function ArticlesPage() {
   }, [filteredArticles]);
 
   const activeAuthors = useMemo(() => {
-    const now = Date.now();
     const ms = authorPeriod === 'week' ? 7 * 24 * 60 * 60 * 1000 : 30 * 24 * 60 * 60 * 1000;
 
     const stats = new Map<string, { score: number; articles: number }>();
@@ -195,7 +196,7 @@ export default function ArticlesPage() {
     for (const a of allArticles) {
       const dt = new Date(a.createdAt).getTime();
       if (!Number.isFinite(dt)) continue;
-      if (now - dt > ms) continue;
+      if (NOW - dt > ms) continue;
 
       const prev = stats.get(a.authorId) ?? { score: 0, articles: 0 };
       stats.set(a.authorId, {
@@ -513,14 +514,6 @@ export default function ArticlesPage() {
               </Flex>
             </Box>
 
-            <Box borderWidth="1px" borderRadius="md" p="4">
-              <Heading as="h3" size="sm" fontWeight="700">
-                Подсказки
-              </Heading>
-              <Text mt="2" fontSize="sm" opacity={0.8}>
-                Скоро здесь появятся фильтры по жанрам/типам, а также закрепления разборов к книгам.
-              </Text>
-            </Box>
           </Stack>
         </Box>
       }

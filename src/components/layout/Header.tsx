@@ -5,7 +5,7 @@ import { GlobalSearch } from '../navigation/GlobalSearch';
 
 export function Header() {
   return (
-    <Box as="header" borderBottomWidth="1px">
+    <Box as="header" borderBottomWidth="1px" position="sticky" top="0" zIndex="sticky" bg="bg">
       <Flex align="center" justify="space-between" px="6" py="4">
         <AppLink to="/feed">
           <Heading as="h1" size="md" fontWeight="600">

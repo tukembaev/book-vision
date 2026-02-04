@@ -70,98 +70,133 @@ export function BooksCatalogFilters({
   onReset,
 }: BooksCatalogFiltersProps) {
   return (
-    <Box borderWidth="1px" borderRadius="md" p="4">
-      <Stack gap="5">
-        <Box>
-          <Heading as="h3" size="sm" fontWeight="700">
-            Фильтры
-          </Heading>
-          <Text mt="1" fontSize="sm" opacity={0.8}>
-            Применяются автоматически
-          </Text>
-        </Box>
+    <Box 
+      borderWidth="1px" 
+      borderRadius="md" 
+      h="full"
+      display="flex"
+      flexDirection="column"
+    >
+      <Box 
+        p="4" 
+        borderBottomWidth="1px"
+      >
+        <Heading as="h3" size="sm" fontWeight="700">
+          Фильтры
+        </Heading>
+        <Text mt="1" fontSize="sm" opacity={0.8}>
+          Применяются автоматически
+        </Text>
+      </Box>
 
-        <FilterSection title="Жанры">
-          <CheckboxList
-            items={EDITORIAL_GENRES}
-            selected={selectedGenres}
-            onChange={(values) => onSelectedGenresChange(values)}
-          />
-        </FilterSection>
+      <Box 
+        flex="1"
+        overflowY="auto"
+        p="4"
+        css={{
+          '&::-webkit-scrollbar': {
+            width: '8px',
+          },
+          '&::-webkit-scrollbar-track': {
+            background: 'transparent',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            background: 'rgba(255, 255, 255, 0.2)',
+            borderRadius: '4px',
+          },
+          '&::-webkit-scrollbar-thumb:hover': {
+            background: 'rgba(255, 255, 255, 0.3)',
+          },
+        }}
+      >
+        <Stack gap="5">
+          <FilterSection title="Жанры">
+            <CheckboxList
+              items={EDITORIAL_GENRES}
+              selected={selectedGenres}
+              onChange={(values) => onSelectedGenresChange(values)}
+            />
+          </FilterSection>
 
-        <FilterSection title="Возрастной рейтинг">
-          <CheckboxList
-            items={AGE_RATINGS}
-            selected={selectedAgeRatings}
-            onChange={(values) => onSelectedAgeRatingsChange(values as Array<'6+' | '12+' | '16+' | '18+'>)}
-          />
-        </FilterSection>
+          <FilterSection title="Возрастной рейтинг">
+            <CheckboxList
+              items={AGE_RATINGS}
+              selected={selectedAgeRatings}
+              onChange={(values) => onSelectedAgeRatingsChange(values as Array<'6+' | '12+' | '16+' | '18+'>)}
+            />
+          </FilterSection>
 
-        <FilterSection title="Объём книги">
-          <Stack gap="2">
-            {BOOK_SIZES.map((s) => (
-              <SizeCheckbox
-                key={s.value}
-                label={s.label}
-                hint={s.hint}
-                checked={selectedSizes.includes(s.value)}
-                onCheckedChange={(checked) => {
-                  const next = checked
-                    ? Array.from(new Set([...selectedSizes, s.value]))
-                    : selectedSizes.filter((v) => v !== s.value);
-                  onSelectedSizesChange(next);
-                }}
+          <FilterSection title="Объём книги">
+            <Stack gap="2">
+              {BOOK_SIZES.map((s) => (
+                <SizeCheckbox
+                  key={s.value}
+                  label={s.label}
+                  hint={s.hint}
+                  checked={selectedSizes.includes(s.value)}
+                  onCheckedChange={(checked) => {
+                    const next = checked
+                      ? Array.from(new Set([...selectedSizes, s.value]))
+                      : selectedSizes.filter((v) => v !== s.value);
+                    onSelectedSizesChange(next);
+                  }}
+                />
+              ))}
+            </Stack>
+          </FilterSection>
+
+          <FilterSection title="Страна / регион автора">
+            <CheckboxList
+              items={AUTHOR_COUNTRIES}
+              selected={selectedCountries}
+              onChange={(values) => onSelectedCountriesChange(values)}
+            />
+          </FilterSection>
+
+          <FilterSection title="Год публикации">
+            <Stack gap="2">
+              <Input
+                value={yearFrom}
+                onChange={(e) => onYearFromChange(e.currentTarget.value)}
+                placeholder="От"
+                inputMode="numeric"
               />
-            ))}
-          </Stack>
-        </FilterSection>
+              <Input
+                value={yearTo}
+                onChange={(e) => onYearToChange(e.currentTarget.value)}
+                placeholder="До"
+                inputMode="numeric"
+              />
+            </Stack>
+          </FilterSection>
 
-        <FilterSection title="Страна / регион автора">
-          <CheckboxList
-            items={AUTHOR_COUNTRIES}
-            selected={selectedCountries}
-            onChange={(values) => onSelectedCountriesChange(values)}
-          />
-        </FilterSection>
+          <FilterSection title="Оценка пользователей">
+            <Stack gap="2">
+              <Input
+                value={ratingFrom}
+                onChange={(e) => onRatingFromChange(e.currentTarget.value)}
+                placeholder="От"
+                inputMode="decimal"
+              />
+              <Input
+                value={ratingTo}
+                onChange={(e) => onRatingToChange(e.currentTarget.value)}
+                placeholder="До"
+                inputMode="decimal"
+              />
+            </Stack>
+          </FilterSection>
+        </Stack>
+      </Box>
 
-        <FilterSection title="Год публикации">
-          <Stack gap="2">
-            <Input
-              value={yearFrom}
-              onChange={(e) => onYearFromChange(e.currentTarget.value)}
-              placeholder="От"
-              inputMode="numeric"
-            />
-            <Input
-              value={yearTo}
-              onChange={(e) => onYearToChange(e.currentTarget.value)}
-              placeholder="До"
-              inputMode="numeric"
-            />
-          </Stack>
-        </FilterSection>
-
-        <FilterSection title="Оценка пользователей">
-          <Stack gap="2">
-            <Input
-              value={ratingFrom}
-              onChange={(e) => onRatingFromChange(e.currentTarget.value)}
-              placeholder="От"
-              inputMode="decimal"
-            />
-            <Input
-              value={ratingTo}
-              onChange={(e) => onRatingToChange(e.currentTarget.value)}
-              placeholder="До"
-              inputMode="decimal"
-            />
-          </Stack>
-        </FilterSection>
-
-        <Button size="sm" onClick={onReset} disabled={!canReset}>
+      <Box 
+        p="4" 
+        borderTopWidth="1px"
+      >
+        <Button size="sm" onClick={onReset} disabled={!canReset} w="full">
           Сбросить
         </Button>
-      </Stack>
+      </Box>
     </Box>
   );
 }

@@ -8,8 +8,8 @@ export interface BooksCatalogHeaderProps {
 export function BooksCatalogHeader({ query, onQueryChange }: BooksCatalogHeaderProps) {
   return (
     <Box>
-      <Text fontSize="sm" opacity={0.8}>
-        Поиск по названию или автору
+      <Text fontSize="md" fontWeight="600" >
+        Каталог книг
       </Text>
       <Flex mt="2" gap="3" align="center" width="full">
         <Input

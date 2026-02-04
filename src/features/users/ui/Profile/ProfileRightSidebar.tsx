@@ -2,10 +2,6 @@ import { Box, Heading, Stack, Text } from '@chakra-ui/react';
 
 import type { User } from '@/types/core';
 
-import { getMockBookById } from '@/features/books/mocks/booksDb.mock';
-import { getMockCharacterProfileById } from '@/features/characters/mocks/characterProfilesDb.mock';
-import { mockReviewsDb } from '@/features/reviews/mocks/reviewsDb.mock';
-
 import {
   getCommunityHelpStats,
   type ProfileSection,
@@ -18,7 +14,8 @@ export interface ProfileRightSidebarProps {
   user?: User;
 }
 
-export function ProfileRightSidebar({ section, profile, user }: ProfileRightSidebarProps) {
+export function ProfileRightSidebar({ section, profile, user: _user }: ProfileRightSidebarProps) {
+  void _user;
   if (section === 'help') {
     const stats = getCommunityHelpStats(profile);
 
@@ -67,57 +64,6 @@ export function ProfileRightSidebar({ section, profile, user }: ProfileRightSide
     );
   }
 
-  if (section === 'read') {
-    const favoriteBook = profile.favorites.bookIds[0] ? getMockBookById(profile.favorites.bookIds[0]) : undefined;
-    const favoriteCharacter = profile.favorites.characterIds[0]
-      ? getMockCharacterProfileById(profile.favorites.characterIds[0])
-      : undefined;
-
-    const bestRatedBook = [...profile.favorites.bookIds]
-      .map((id) => getMockBookById(id))
-      .filter(Boolean)
-      .sort((a, b) => ((a?.ratings.average ?? 0) < (b?.ratings.average ?? 0) ? 1 : -1))[0];
-
-    return (
-      <Stack gap="4">
-        <SocialCard profile={profile} />
-
-        <Box borderWidth="1px" borderRadius="md" p="4">
-          <Heading as="h3" size="sm" fontWeight="600">
-            Читательский контекст
-          </Heading>
-          <Stack mt="3" gap="1">
-            <Text opacity={0.85}>Любимая книга: {favoriteBook?.title ?? '—'}</Text>
-            <Text opacity={0.85}>Любимый персонаж: {favoriteCharacter?.name ?? '—'}</Text>
-            <Text opacity={0.85}>Топ по оценке: {bestRatedBook?.title ?? '—'}</Text>
-          </Stack>
-        </Box>
-      </Stack>
-    );
-  }
-
-  if (section === 'reviews') {
-    const reviewsCount = mockReviewsDb.filter((r) => r.userId === profile.userId).length;
-
-    return (
-      <Stack gap="4">
-        <SocialCard profile={profile} />
-
-        <Box borderWidth="1px" borderRadius="md" p="4">
-          <Heading as="h3" size="sm" fontWeight="600">
-            Отзывы
-          </Heading>
-          <Stack mt="3" gap="1">
-            <Text opacity={0.85}>Всего отзывов: {reviewsCount}</Text>
-            <Text fontSize="sm" opacity={0.75}>
-              Группировка по книгам — в центре.
-            </Text>
-          </Stack>
-        </Box>
-      </Stack>
-    );
-  }
-
   if (section === 'challenges') {
     return (
       <Stack gap="4">
@@ -130,27 +76,6 @@ export function ProfileRightSidebar({ section, profile, user }: ProfileRightSide
           <Stack mt="3" gap="1">
             <Text fontSize="sm" opacity={0.75}>
               Детали прогресса — в центре (mock).
-            </Text>
-          </Stack>
-        </Box>
-      </Stack>
-    );
-  }
-
-  if (section === 'settings') {
-    return (
-      <Stack gap="4">
-        <SocialCard profile={profile} />
-
-        <Box borderWidth="1px" borderRadius="md" p="4">
-          <Heading as="h3" size="sm" fontWeight="600">
-            Настройки
-          </Heading>
-          <Stack mt="3" gap="1">
-            <Text opacity={0.85}>Профиль: {user?.privacy.profileVisibility ?? '—'}</Text>
-            <Text opacity={0.85}>Активность: {user?.privacy.activityVisibility ?? '—'}</Text>
-            <Text fontSize="sm" opacity={0.75}>
-              Это mock — без сохранения.
             </Text>
           </Stack>
         </Box>
