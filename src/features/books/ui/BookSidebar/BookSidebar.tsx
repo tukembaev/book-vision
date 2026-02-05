@@ -1,7 +1,7 @@
 import { Box, Heading, Stack, Text } from '@chakra-ui/react';
 
 import type { Book, BookPart, Character } from '@/types/core';
-import { AppLink } from '@/components/navigation/AppLink';
+import { AppLink } from '@/components/navigation/AppLink/AppLink';
 import { getAveragePartRating } from '../../utils/getAveragePartRating';
 
 export interface BookSidebarProps {

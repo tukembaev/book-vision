@@ -1,9 +1,10 @@
-import { Box, Flex, Heading, Stack, Tabs, Text } from '@chakra-ui/react';
+import { Box, Heading, Stack, Tabs, Text } from '@chakra-ui/react';
 
-import { AppLink } from '@/components/navigation/AppLink.tsx';
+import { ReviewCard } from '@/components/ReviewCard/ReviewCard';
+import { mockReviewCards } from '@/components/ReviewCard/mocks/ReviewCard.mock';
 import { getMockBookById } from '@/features/books/mocks/booksDb.mock';
-import { mockCommentsDb } from '@/features/comments/mocks/commentsDb.mock';
-import { mockReviewsDb } from '@/features/reviews/mocks/reviewsDb.mock';
+import { CommentThread } from '@/features/comments/ui/CommentThread/CommentThread';
+import { mockCommentThreads } from '@/features/comments/mocks/commentsThread.mock';
 
 import type { UserProfileDashboard } from '../../mocks/userProfileDb.mock';
 
@@ -21,14 +22,6 @@ const activityTabs: Array<{ key: ActivityTabKey; title: string }> = [
 ];
 
 export function ProfileActivityCenter({ userId, profile }: ProfileActivityCenterProps) {
-  const reviews = mockReviewsDb
-    .filter((r) => r.userId === userId)
-    .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
-
-  const comments = mockCommentsDb
-    .filter((c) => c.userId === userId)
-    .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
-
   const reading = [...profile.reading].sort((a, b) => (a.startedAt < b.startedAt ? 1 : -1));
 
   return (
@@ -50,79 +43,19 @@ export function ProfileActivityCenter({ userId, profile }: ProfileActivityCenter
         </Tabs.List>
 
         <Tabs.Content value="reviews" pt="4">
-          {reviews.length === 0 ? (
-            <Text opacity={0.8}>Пока нет отзывов (mock).</Text>
-          ) : (
-            <Stack gap="3">
-              {reviews.map((r) => {
-                const book = getMockBookById(r.bookId);
-                const partId = r.bestParts?.[0];
-
-                return (
-                  <Box key={r.id} borderWidth="1px" borderRadius="md" p="3">
-                    <Heading as="h4" size="xs" fontWeight="700">
-                      {book?.title ?? `Книга ${r.bookId}`} · {r.rating}/10
-                    </Heading>
-                    <Text mt="1" opacity={0.85}>
-                      {r.text}
-                    </Text>
-
-                    <Stack mt="2" gap="1">
-                      <AppLink to={`/books/${r.bookId}/reviews`} fontSize="sm" opacity={0.85}>
-                        Открыть отзывы книги
-                      </AppLink>
-                      {partId ? (
-                        <AppLink to={`/books/${r.bookId}/parts/${partId}`} fontSize="sm" opacity={0.85}>
-                          Перейти к главе
-                        </AppLink>
-                      ) : null}
-                      <Text fontSize="sm" opacity={0.7}>
-                        {r.createdAt}
-                      </Text>
-                    </Stack>
-                  </Box>
-                );
-              })}
-            </Stack>
-          )}
+          <Stack gap="3">
+            {mockReviewCards.map((review) => (
+              <ReviewCard key={review.id} review={review} />
+            ))}
+          </Stack>
         </Tabs.Content>
 
         <Tabs.Content value="comments" pt="4">
-          {comments.length === 0 ? (
-            <Text opacity={0.8}>Пока нет комментариев (mock).</Text>
-          ) : (
-            <Stack gap="3">
-              {comments.map((c) => {
-                const book = getMockBookById(c.bookId);
-
-                return (
-                  <Box key={c.id} borderWidth="1px" borderRadius="md" p="3">
-                    <Flex align="baseline" justify="space-between" gap="3">
-                      <Heading as="h4" size="xs" fontWeight="700">
-                        {book?.title ?? `Книга ${c.bookId}`}
-                      </Heading>
-                      <Text fontSize="xs" opacity={0.7}>
-                        {c.createdAt}
-                      </Text>
-                    </Flex>
-
-                    <Text mt="1" opacity={0.85}>
-                      {c.text}
-                    </Text>
-
-                    <Stack mt="2" gap="1">
-                      <AppLink to={`/books/${c.bookId}`} fontSize="sm" opacity={0.85}>
-                        Открыть книгу
-                      </AppLink>
-                      <Text fontSize="sm" opacity={0.75}>
-                        Лайков: {c.likes}
-                      </Text>
-                    </Stack>
-                  </Box>
-                );
-              })}
-            </Stack>
-          )}
+          <Box>
+            {mockCommentThreads.map((comment) => (
+              <CommentThread key={comment.id} comment={comment} />
+            ))}
+          </Box>
         </Tabs.Content>
 
         <Tabs.Content value="reading" pt="4">

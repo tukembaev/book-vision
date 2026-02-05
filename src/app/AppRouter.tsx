@@ -2,7 +2,7 @@ import { Suspense, lazy } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Box, Text } from '@chakra-ui/react';
 
-import { AppLayout } from '../components/layout/AppLayout';
+import { AppLayout } from '../components/layout/AppLayout/AppLayout';
 
 const HomePage = lazy(() => import('../features/books/routes/HomePage'));
 const FeedPage = lazy(() => import('../features/feed/routes/FeedPage'));
@@ -18,6 +18,7 @@ const CharacterPage = lazy(() => import('../features/characters/routes/Character
 const ChallengesPage = lazy(() => import('../features/challenges/routes/ChallengesPage'));
 const ArticlesPage = lazy(() => import('../features/articles/routes/ArticlesPage'));
 const ArticlePage = lazy(() => import('../features/articles/routes/ArticlePage'));
+const ReviewPage = lazy(() => import('../features/reviews/routes/ReviewPage'));
 const UserProfilePage = lazy(() => import('../features/users/routes/UserProfilePage'));
 const NotFoundPage = lazy(() => import('./NotFoundPage'));
 
@@ -47,6 +48,7 @@ export function AppRouter() {
             <Route path="challenges" element={<ChallengesPage />} />
             <Route path="articles" element={<ArticlesPage />} />
             <Route path="articles/:articleId" element={<ArticlePage />} />
+            <Route path="reviews/:reviewId" element={<ReviewPage />} />
             <Route path="users/:userId" element={<UserProfilePage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>

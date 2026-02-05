@@ -12,7 +12,7 @@ export type VerificationStatus = 'AI' | 'Community' | 'None';
 
 export type UserActivityType = 'review' | 'comment' | 'quote' | 'word' | 'context';
 
-export type UserLibraryStatus = 'planned' | 'watching' | 'rewatching' | 'watched' | 'onHold' | 'dropped';
+export type UserLibraryStatus = 'planned' | 'reading_now' | 'completed' | 'onHold' | 'dropped';
 
 export interface UserLibraryEntry {
   bookId: string;
@@ -94,12 +94,11 @@ export const mockUserProfilesDb: UserProfileDashboard[] = [
       quoteIds: ['q1', 'q3'],
     },
     library: [
-      { bookId: '1', status: 'watched', createdAt: '2026-01-10T10:00:00.000Z' },
-      { bookId: '2', status: 'watching', createdAt: '2026-01-20T10:00:00.000Z' },
+      { bookId: '1', status: 'completed', createdAt: '2026-01-10T10:00:00.000Z' },
+      { bookId: '2', status: 'reading_now', createdAt: '2026-01-20T10:00:00.000Z' },
       { bookId: '3', status: 'planned', createdAt: '2026-01-28T10:00:00.000Z' },
       { bookId: '4', status: 'onHold', createdAt: '2026-01-15T10:00:00.000Z' },
       { bookId: '5', status: 'dropped', createdAt: '2026-01-12T10:00:00.000Z' },
-      { bookId: '6', status: 'rewatching', createdAt: '2026-01-18T10:00:00.000Z' },
     ],
     reading: [
       {
@@ -235,7 +234,7 @@ export const mockUserProfilesDb: UserProfileDashboard[] = [
       characterIds: ['c2'],
       quoteIds: ['q2'],
     },
-    library: [{ bookId: '2', status: 'watched', createdAt: '2026-01-12T10:00:00.000Z' }],
+    library: [{ bookId: '2', status: 'completed', createdAt: '2026-01-12T10:00:00.000Z' }],
     reading: [
       {
         bookId: '2',
@@ -277,7 +276,6 @@ export function getDefaultProfileSections(_isSelf: boolean) {
   void _isSelf;
   const sections: { key: ProfileSection; title: string }[] = [
     { key: 'library', title: 'Библиотека' },
-    { key: 'libraryV2', title: 'БиблиотекаV2' },
     { key: 'stats', title: 'Статистика' },
     { key: 'activity', title: 'Активность' },
     { key: 'help', title: 'Помощь сообществу ⭐' },

@@ -1,7 +1,7 @@
 import { Box, Heading, Stack, Text } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 
-import { ThreeColumnLayout } from '@/components/layout/ThreeColumnLayout';
+import { ThreeColumnLayout } from '@/components/layout/ThreeColumnLayout/ThreeColumnLayout';
 
 import { getMockBookById } from '@/features/books/mocks/booksDb.mock';
 import { getMockCharacterProfileById } from '../mocks/characterProfilesDb.mock';

@@ -1,7 +1,7 @@
 import { Box, Heading, Text, Tabs, Image } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 
-import { ThreeColumnLayout } from '@/components/layout/ThreeColumnLayout';
+import { ThreeColumnLayout } from '@/components/layout/ThreeColumnLayout/ThreeColumnLayout';
 import { getMockUserById } from '../mocks/usersDb.mock';
 
 import {
@@ -10,7 +10,7 @@ import {
 } from '../mocks/userProfileDb.mock';
 
 import { ProfileSidebar } from '../ui/Profile/ProfileSidebar.tsx';
-import { ProfileLibraryCenter } from '../ui/Profile/ProfileLibraryCenter.tsx';
+
 import { ProfileLibraryV2Center } from '../ui/Profile/ProfileLibraryV2Center.tsx';
 import { ProfileStatsCenter } from '../ui/Profile/ProfileStatsCenter.tsx';
 import { ProfileActivityCenter } from '../ui/Profile/ProfileActivityCenter.tsx';
@@ -59,7 +59,7 @@ export default function UserProfilePage() {
               boxShadow="sm"
             >
               <Image 
-                src="https://t4.ftcdn.net/jpg/03/90/37/71/360_F_390377167_NYd4Zi29xUAxEFDcVwX8SYSbagv4At8N.jpg" 
+                src="https://e1.pxfuel.com/desktop-wallpaper/291/910/desktop-wallpaper-steam-workshop-jojo-s-bizarre-addons-za-warudo.jpg" 
                 alt="Banner"
                 width="100%" 
                 height="200px" 
@@ -79,8 +79,6 @@ export default function UserProfilePage() {
               {tabs.map((t) => (
                 <Tabs.Content key={t.key} value={t.key} pt="4">
                   {t.key === 'library' ? (
-                    <ProfileLibraryCenter profile={profile} />
-                  ) : t.key === 'libraryV2' ? (
                     <ProfileLibraryV2Center />
                   ) : t.key === 'stats' ? (
                     <ProfileStatsCenter />
@@ -91,7 +89,7 @@ export default function UserProfilePage() {
                   ) : t.key === 'challenges' ? (
                     <ProfileChallengesCenter />
                   ) : (
-                    <ProfileLibraryCenter profile={profile} />
+                    <ProfileLibraryV2Center />
                   )}
                 </Tabs.Content>
               ))}

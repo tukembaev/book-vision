@@ -1,4 +1,5 @@
-import type { AppLinkProps } from './AppLink';
+import type { AppLinkProps } from "../AppLink";
+
 
 export const appLinkMock: AppLinkProps = {
   to: '/',

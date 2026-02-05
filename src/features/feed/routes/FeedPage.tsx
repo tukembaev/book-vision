@@ -1,12 +1,11 @@
 import { Box, Button, Flex, Heading, Stack, Text } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
 
-import { getMockFeedItems } from '../mocks/feedDb.mock';
 import type { FeedItemType } from '@/types/core';
+import { getMockFeedItems } from '../mocks/feedDb.mock';
 
 import { FeedFilters } from '../ui/FeedFilters/FeedFilters.tsx';
 import { FeedList } from '../ui/FeedList/FeedList.tsx';
-import CommentFeed from '@/components/CommentFeed.tsx';
 
 export default function FeedPage() {
   const [filter, setFilter] = useState<FeedItemType | 'all'>('all');
@@ -29,7 +28,7 @@ export default function FeedPage() {
           Действия людей, на которых ты подписан (mock).
         </Text>
       </Box>
-      <CommentFeed />
+      
       <FeedFilters value={filter} onChange={setFilter} />
 
       <FeedList items={items} />

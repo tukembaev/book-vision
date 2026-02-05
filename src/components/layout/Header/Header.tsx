@@ -1,7 +1,7 @@
 import { Box, Flex, Heading } from '@chakra-ui/react';
 
-import { AppLink } from '../navigation/AppLink';
-import { GlobalSearch } from '../navigation/GlobalSearch';
+import { AppLink } from '../../navigation/AppLink/AppLink';
+import { GlobalSearch } from '../../navigation/GlobalSearch/GlobalSearch';
 
 export function Header() {
   return (

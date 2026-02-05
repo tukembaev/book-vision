@@ -88,6 +88,9 @@ export interface Comment {
   likes: number;
 
   createdAt: string;
+  
+  parentCommentId?: string;
+  replyToUserId?: string;
 }
 
 export interface Review {

@@ -1,6 +1,6 @@
 import { Box, Heading, Stack, Text } from '@chakra-ui/react';
 
-import { AppLink } from '@/components/navigation/AppLink.tsx';
+import { AppLink } from '@/components/navigation/AppLink/AppLink';
 import type { UserProfileDashboard, UserActivityItem, UserActivityType } from '../../mocks/userProfileDb.mock';
 
 export interface ProfileHelpCenterProps {

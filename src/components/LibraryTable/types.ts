@@ -9,6 +9,7 @@ export interface LibraryBookEntry {
   author: string;
   authorId: string;
   status: LibraryBookStatus;
+  addedDate?: string;
   readDate?: string;
   rating?: LibraryBookRating;
   score?: number;

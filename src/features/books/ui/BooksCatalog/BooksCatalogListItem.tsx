@@ -1,7 +1,7 @@
 import { Box, Heading, Stack, Text } from '@chakra-ui/react';
 
 import type { Book } from '@/types/core';
-import { AppLink } from '@/components/navigation/AppLink';
+import { AppLink } from '@/components/navigation/AppLink/AppLink';
 
 export interface BooksCatalogListItemProps {
   book: Book;

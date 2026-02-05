@@ -1,0 +1,136 @@
+export interface CommentThreadItem {
+  id: string;
+  authorId: string;
+  authorUsername: string;
+  authorAvatar?: string;
+  text: string;
+  createdAt: string;
+  likes: number;
+  repliesCount: number;
+  repostsCount: number;
+  sharesCount: number;
+  popularReply?: CommentThreadItem;
+}
+
+export const mockCommentThreads: CommentThreadItem[] = [
+  {
+    id: 'c1',
+    authorId: 'u1',
+    authorUsername: 'bookworm_anna',
+    authorAvatar: undefined,
+    text: 'Читаю "Преступление и наказание" уже третий раз, и каждый раз нахожу что-то новое. Достоевский гениально показывает внутренний мир Раскольникова - как человек может оправдывать любое преступление философией.',
+    createdAt: '2 ч.',
+    likes: 415,
+    repliesCount: 217,
+    repostsCount: 2,
+    sharesCount: 17,
+    popularReply: {
+      id: 'c1-r1',
+      authorId: 'u2',
+      authorUsername: 'literary_critic',
+      authorAvatar: undefined,
+      text: 'Согласен! А ещё интересно, как Достоевский через Раскольникова показывает кризис нигилизма 1860-х. Это не просто детектив, это философский роман о границах человеческой свободы.',
+      createdAt: '1 ч.',
+      likes: 156,
+      repliesCount: 45,
+      repostsCount: 1,
+      sharesCount: 3,
+    },
+  },
+  {
+    id: 'c2',
+    authorId: 'u3',
+    authorUsername: 'modern_reader',
+    authorAvatar: undefined,
+    text: 'Начал читать "1984" Оруэлла. Жутко осознавать, насколько актуальна эта книга сегодня. Двоемыслие, новояз, тотальная слежка - всё это уже не кажется фантастикой.',
+    createdAt: '5 ч.',
+    likes: 892,
+    repliesCount: 341,
+    repostsCount: 12,
+    sharesCount: 45,
+    popularReply: {
+      id: 'c2-r1',
+      authorId: 'u4',
+      authorUsername: 'philosophy_fan',
+      authorAvatar: undefined,
+      text: 'Рекомендую после "1984" прочитать "О дивный новый мир" Хаксли. Там другой подход к антиутопии - не через насилие, а через удовольствие и контроль сознания. Вместе эти книги дают полную картину.',
+      createdAt: '4 ч.',
+      likes: 234,
+      repliesCount: 67,
+      repostsCount: 3,
+      sharesCount: 8,
+    },
+  },
+  {
+    id: 'c3',
+    authorId: 'u5',
+    authorUsername: 'classic_lover',
+    authorAvatar: undefined,
+    text: 'Перечитываю "Мастера и Маргариту". Булгаков создал невероятный мир, где переплетаются три сюжетные линии. Сатира на советскую действительность, библейская история и любовная драма - всё это работает как единое целое.',
+    createdAt: '1 д.',
+    likes: 1247,
+    repliesCount: 523,
+    repostsCount: 18,
+    sharesCount: 67,
+  },
+  {
+    id: 'c4',
+    authorId: 'u6',
+    authorUsername: 'fantasy_reader',
+    authorAvatar: undefined,
+    text: 'Закончил "Властелин колец". Толкин не просто придумал мир - он создал целую мифологию с языками, историей, культурами. Это не фэнтези, это литература на уровне эпоса.',
+    createdAt: '2 д.',
+    likes: 678,
+    repliesCount: 289,
+    repostsCount: 9,
+    sharesCount: 34,
+    popularReply: {
+      id: 'c4-r1',
+      authorId: 'u7',
+      authorUsername: 'tolkien_scholar',
+      authorAvatar: undefined,
+      text: 'Да! И важно понимать, что Толкин писал это как филолог. Он сначала создал языки (квенья, синдарин), а потом уже мир и историю для них. "Властелин колец" - это по сути приложение к его лингвистическим исследованиям.',
+      createdAt: '1 д.',
+      likes: 445,
+      repliesCount: 112,
+      repostsCount: 7,
+      sharesCount: 19,
+    },
+  },
+  {
+    id: 'c5',
+    authorId: 'u8',
+    authorUsername: 'book_addict',
+    authorAvatar: undefined,
+    text: 'Читаю "Анну Каренину" и поражаюсь, как Толстой описывает психологию персонажей. Каждая глава - это погружение в мысли героя. Особенно сильны сцены с Левиным и его поиском смысла жизни.',
+    createdAt: '3 д.',
+    likes: 534,
+    repliesCount: 198,
+    repostsCount: 5,
+    sharesCount: 23,
+  },
+  {
+    id: 'c6',
+    authorId: 'u9',
+    authorUsername: 'scifi_enthusiast',
+    authorAvatar: undefined,
+    text: 'Прочитал "Солярис" Лема. Это не про космос и не про инопланетян - это про невозможность понимания Другого. Океан Соляриса - метафора того, что мы не можем выйти за пределы своего сознания.',
+    createdAt: '4 д.',
+    likes: 923,
+    repliesCount: 412,
+    repostsCount: 15,
+    sharesCount: 56,
+    popularReply: {
+      id: 'c6-r1',
+      authorId: 'u10',
+      authorUsername: 'philosophy_reader',
+      authorAvatar: undefined,
+      text: 'Точно! Лем показывает, что контакт с внеземным разумом невозможен, потому что мы проецируем на него свои категории. Солярис материализует наши воспоминания, но мы так и не понимаем, что он такое на самом деле.',
+      createdAt: '3 д.',
+      likes: 367,
+      repliesCount: 89,
+      repostsCount: 4,
+      sharesCount: 12,
+    },
+  },
+];

@@ -13,11 +13,13 @@ import {
 import { useMemo, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 
-import { ThreeColumnLayout } from '@/components/layout/ThreeColumnLayout';
-import { AppLink } from '@/components/navigation/AppLink';
+import { ThreeColumnLayout } from '@/components/layout/ThreeColumnLayout/ThreeColumnLayout';
+import { AppLink } from '@/components/navigation/AppLink/AppLink';
 
 import { mockBooksDb } from '@/features/books/mocks/booksDb.mock';
 import { mockUsersDb } from '@/features/users/mocks/usersDb.mock';
+import { CommentThread } from '@/features/comments/ui/CommentThread/CommentThread';
+import { mockCommentThreads } from '@/features/comments/mocks/commentsThread.mock';
 
 import {
   getMockArticleById,
@@ -255,7 +257,8 @@ export default function ArticlePage() {
                   <Button
                     key={t.id}
                     variant="ghost"
-                    size="sm"
+                    size="xs"
+                 
                     justifyContent="flex-start"
                     onClick={() => {
                       const el = document.getElementById(t.id);
@@ -263,7 +266,7 @@ export default function ArticlePage() {
                     }}
                     opacity={activeTocId === t.id ? 1 : 0.8}
                     fontWeight={activeTocId === t.id ? '700' : '600'}
-                    pl={t.level === 3 ? '6' : '3'}
+                    pl={t.level === 3 ? '3' : '1'}
                   >
                     {t.text}
                   </Button>
@@ -340,14 +343,14 @@ export default function ArticlePage() {
               Комментарии
             </Heading>
             <Text mt="2" fontSize="sm" opacity={0.8}>
-              Пока простые линейные комментарии (mock).
+              Обсуждение статьи читателями.
             </Text>
 
-            <Stack mt="3" gap="3">
-              <CommentRow author="reader" text="Классно, что ты связал конфликт с языком эпохи. Это помогает увидеть книгу иначе." />
-              <CommentRow author="moderator" text="Согласен. Ещё интересно, как меняется смысл слова “нигилизм” от главы к главе." />
-              <CommentRow author="arif" text="Я бы добавил ещё слой про то, что спор поколений — спор про “кто имеет право на будущее”." />
-            </Stack>
+            <Box mt="3">
+              {mockCommentThreads.slice(0, 3).map((comment) => (
+                <CommentThread key={comment.id} comment={comment} />
+              ))}
+            </Box>
           </Box>
 
           <Box borderTopWidth="1px" />

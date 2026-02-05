@@ -12,8 +12,8 @@ import {
 import { useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import { ThreeColumnLayout } from '@/components/layout/ThreeColumnLayout';
-import { AppLink } from '@/components/navigation/AppLink';
+import { ThreeColumnLayout } from '@/components/layout/ThreeColumnLayout/ThreeColumnLayout';
+import { AppLink } from '@/components/navigation/AppLink/AppLink';
 
 import { mockBooksDb } from '@/features/books/mocks/booksDb.mock';
 import { mockUsersDb } from '@/features/users/mocks/usersDb.mock';

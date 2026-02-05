@@ -46,6 +46,7 @@ export function AddBookForm({ open, onClose, onSubmit }: AddBookFormProps) {
       author: selectedAuthor.name,
       authorId: selectedAuthor.id,
       status,
+      addedDate: new Date().toISOString().slice(0, 10),
       readDate: readDate || undefined,
       rating,
       score,

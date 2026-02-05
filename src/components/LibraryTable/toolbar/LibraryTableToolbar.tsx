@@ -62,7 +62,7 @@ export function LibraryTableToolbar({
   };
 
   return (
-    <HStack justify="flex-end" gap={2} mb={3}>
+    <HStack justify="flex-end" gap={1} mb={3}>
       {/* Filter Menu */}
       <Menu.Root>
         <Menu.Trigger asChild>

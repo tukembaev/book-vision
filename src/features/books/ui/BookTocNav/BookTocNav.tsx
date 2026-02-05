@@ -1,6 +1,6 @@
 import { Box, Heading, Stack, Text } from '@chakra-ui/react';
 import type { Book, BookPart } from '@/types/core';
-import { AppLink } from '@/components/navigation/AppLink';
+import { AppLink } from '@/components/navigation/AppLink/AppLink';
 
 export interface BookTocNavProps {
   book: Book;

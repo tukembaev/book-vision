@@ -1,12 +1,14 @@
-import { Badge, Box, HStack, Table, Text } from '@chakra-ui/react';
-import { useMemo, useState } from 'react';
+import { Badge, Box, HStack, IconButton, Table, Text } from '@chakra-ui/react';
+import { useMemo, useState, type ReactNode } from 'react';
 import { AuthorField, DateField, RatingBadge, ScoreSlider } from './fields';
 import { AddBookForm } from './forms';
 import { AuthorPopover, BookPopover } from './popovers';
 import { LibraryTableToolbar } from './toolbar';
+import { Calendar, CheckCircle, Eye, LucidePlus, PauseCircle, XCircle } from 'lucide-react';
 import type {
   LibraryBookEntry,
   LibraryBookRating,
+  LibraryBookStatus,
   LibraryTableFilter,
   LibraryTableSort
 } from './types';
@@ -27,9 +29,17 @@ export function LibraryTableV2({
   const [filter, setFilter] = useState<LibraryTableFilter>({});
   const [sort, setSort] = useState<LibraryTableSort>({ field: 'title', direction: 'asc' });
   const [addFormOpen, setAddFormOpen] = useState(false);
+  const [activeStatusTab, setActiveStatusTab] = useState<LibraryBookStatus>('completed');
 
   const filteredAndSortedBooks = useMemo(() => {
     let result = [...books];
+
+    const isCompactStatus =
+      activeStatusTab === 'planned' || activeStatusTab === 'reading' || activeStatusTab === 'onHold';
+
+    if (activeStatusTab) {
+      result = result.filter((book) => book.status === activeStatusTab);
+    }
 
     if (filter.search) {
       const searchLower = filter.search.toLowerCase();
@@ -38,10 +48,6 @@ export function LibraryTableV2({
           book.title.toLowerCase().includes(searchLower) ||
           book.author.toLowerCase().includes(searchLower)
       );
-    }
-
-    if (filter.status && filter.status.length > 0) {
-      result = result.filter((book) => filter.status!.includes(book.status));
     }
 
     if (filter.rating && filter.rating.length > 0) {
@@ -58,7 +64,9 @@ export function LibraryTableV2({
           comparison = a.author.localeCompare(b.author);
           break;
         case 'readDate':
-          comparison = (a.readDate ?? '').localeCompare(b.readDate ?? '');
+          comparison = (
+            (isCompactStatus ? a.addedDate : a.readDate) ?? ''
+          ).localeCompare((isCompactStatus ? b.addedDate : b.readDate) ?? '');
           break;
         case 'rating':
           const ratingOrder = { excellent: 5, good: 4, average: 3, belowAverage: 2, poor: 1 };
@@ -74,7 +82,7 @@ export function LibraryTableV2({
     });
 
     return result;
-  }, [books, filter, sort]);
+  }, [books, activeStatusTab, filter, sort]);
 
   const handleBookUpdate = (bookId: string, updates: Partial<LibraryBookEntry>) => {
     onBookUpdate?.(bookId, updates);
@@ -94,6 +102,10 @@ export function LibraryTableV2({
     handleBookUpdate(bookId, { readDate });
   };
 
+  const handleAddedDateChange = (bookId: string, addedDate: string) => {
+    handleBookUpdate(bookId, { addedDate });
+  };
+
   const handleAuthorChange = (bookId: string, authorId: string, author: string) => {
     handleBookUpdate(bookId, { authorId, author });
   };
@@ -102,19 +114,71 @@ export function LibraryTableV2({
     onBookAdd?.(book);
   };
 
+  const compactView =
+    activeStatusTab === 'planned' || activeStatusTab === 'reading' || activeStatusTab === 'onHold';
+
+  const statusTabs: Array<{
+    status: LibraryBookStatus;
+    label: string;
+    icon: ReactNode;
+  }> = [
+    { status: 'completed', label: 'Прочитано', icon: <CheckCircle size={12} /> },
+    { status: 'planned', label: 'В планах', icon: <Calendar size={12} /> },
+    { status: 'reading', label: 'Читаю', icon: <Eye size={12} /> },
+    { status: 'onHold', label: 'Отложено', icon: <PauseCircle size={12} /> },
+    { status: 'dropped', label: 'Брошено', icon: <XCircle size={12} /> },
+  ];
+
   return (
     <Box>
       <HStack justify="space-between" align="center" mb={2}>
-        <HStack gap={2}>
-          <Badge variant="outline" size="sm" px={2} py={1}>
-            ≡ Library
-          </Badge>
-          <Text fontSize="sm">+</Text>
+        <HStack gap={2} alignItems="center">
+          {statusTabs.map((tab) => (
+            <Badge
+              key={tab.status}
+              variant={activeStatusTab === tab.status ? 'solid' : 'outline'}
+              size="sm"
+              px={2}
+              py={1}
+              cursor="pointer"
+              display="inline-flex"
+              alignItems="center"
+              gap={1}
+              onClick={() => setActiveStatusTab(tab.status)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setActiveStatusTab(tab.status);
+                }
+              }}
+            >
+              {tab.icon}
+              {tab.label}
+            </Badge>
+          ))}
+
+          <IconButton
+            aria-label="Добавить книгу"
+            variant="ghost"
+            size="xs"
+            onClick={() => setAddFormOpen(true)}
+          >
+            <LucidePlus size={14} />
+          </IconButton>
+
         </HStack>
         <LibraryTableToolbar
-          filter={filter}
+          filter={{ ...filter, status: [activeStatusTab] }}
           sort={sort}
-          onFilterChange={setFilter}
+          onFilterChange={(nextFilter) => {
+            const nextStatus = nextFilter.status?.[nextFilter.status.length - 1];
+            if (nextStatus) {
+              setActiveStatusTab(nextStatus);
+            }
+            setFilter({ ...nextFilter, status: undefined });
+          }}
           onSortChange={setSort}
           onAddClick={() => setAddFormOpen(true)}
         />
@@ -132,10 +196,7 @@ export function LibraryTableV2({
                 key={book.id}
                 borderBottomWidth="1px"
               >
-                {/* Book icon */}
-                <Table.Cell w="40px" py={2} px={3}>
-                  <Text fontSize="md">📖</Text>
-                </Table.Cell>
+              
 
                 {/* Book title with popover */}
                 <Table.Cell py={2} px={2} minW="200px">
@@ -175,30 +236,44 @@ export function LibraryTableV2({
 
                 {/* Read date */}
                 <Table.Cell py={2} px={2} minW="120px">
-                  <DateField
-                    date={book.readDate}
-                    onChange={readonly ? undefined : (date) => handleDateChange(book.id, date)}
-                    readonly={readonly}
-                  />
+                  {compactView ? (
+                    <DateField
+                      date={book.addedDate}
+                      onChange={readonly ? undefined : (date) => handleAddedDateChange(book.id, date)}
+                      readonly={readonly}
+                    />
+                  ) : (
+                    <DateField
+                      date={book.readDate}
+                      onChange={readonly ? undefined : (date) => handleDateChange(book.id, date)}
+                      readonly={readonly}
+                    />
+                  )}
                 </Table.Cell>
 
-                {/* Rating badge */}
-                <Table.Cell py={2} px={2} minW="100px">
-                  <RatingBadge
-                    rating={book.rating}
-                    onChange={readonly ? undefined : (rating) => handleRatingChange(book.id, rating)}
-                    readonly={readonly}
-                  />
-                </Table.Cell>
+                {!compactView && (
+                  <>
+                    {/* Rating badge */}
+                    <Table.Cell py={2} px={2} minW="100px">
+                      <RatingBadge
+                        rating={book.rating}
+                        onChange={
+                          readonly ? undefined : (rating) => handleRatingChange(book.id, rating)
+                        }
+                        readonly={readonly}
+                      />
+                    </Table.Cell>
 
-                {/* Score */}
-                <Table.Cell py={2} px={2} w="60px" textAlign="center">
-                  <ScoreSlider
-                    score={book.score}
-                    onChange={readonly ? undefined : (score) => handleScoreChange(book.id, score)}
-                    readonly={readonly}
-                  />
-                </Table.Cell>
+                    {/* Score */}
+                    <Table.Cell py={2} px={2} w="60px" textAlign="center">
+                      <ScoreSlider
+                        score={book.score}
+                        onChange={readonly ? undefined : (score) => handleScoreChange(book.id, score)}
+                        readonly={readonly}
+                      />
+                    </Table.Cell>
+                  </>
+                )}
 
                 {/* Status badge (at the end for visual reference, but functionally it's an important field) */}
           

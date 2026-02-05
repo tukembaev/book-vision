@@ -1,7 +1,7 @@
 import { Box, Flex, Heading, Stack, Tabs, Text } from '@chakra-ui/react';
-import { Calendar, Eye, RotateCw, CheckCircle, PauseCircle, XCircle } from 'lucide-react';
+import { Calendar, CheckCircle, Eye, PauseCircle, XCircle } from 'lucide-react';
 
-import { AppLink } from '@/components/navigation/AppLink.tsx';
+import { AppLink } from '@/components/navigation/AppLink/AppLink';
 import { getMockBookById } from '@/features/books/mocks/booksDb.mock';
 import type { UserProfileDashboard } from '../../mocks/userProfileDb.mock';
 
@@ -9,13 +9,12 @@ export interface ProfileLibraryCenterProps {
   profile: UserProfileDashboard;
 }
 
-type LibraryTabKey = 'planned' | 'watching' | 'rewatching' | 'watched' | 'onHold' | 'dropped';
+type LibraryTabKey = 'planned' | 'reading_now' | 'completed' | 'onHold' | 'dropped';
 
 const libraryTabs: Array<{ key: LibraryTabKey; title: string; icon: React.ComponentType<{ size?: number | string }> }> = [
-  { key: 'planned', title: 'Запланировано', icon: Calendar },
-  { key: 'watching', title: 'Смотрю', icon: Eye },
-  { key: 'rewatching', title: 'Пересматриваю', icon: RotateCw },
-  { key: 'watched', title: 'Просмотрено', icon: CheckCircle },
+  { key: 'planned', title: 'В планах', icon: Calendar },
+  { key: 'reading_now', title: 'Читаю', icon: Eye },
+  { key: 'completed', title: 'Прочитано', icon: CheckCircle },
   { key: 'onHold', title: 'Отложено', icon: PauseCircle },
   { key: 'dropped', title: 'Брошено', icon: XCircle },
 ];
@@ -23,9 +22,9 @@ const libraryTabs: Array<{ key: LibraryTabKey; title: string; icon: React.Compon
 export function ProfileLibraryCenter({ profile }: ProfileLibraryCenterProps) {
   const counts: Record<LibraryTabKey, number> = {
     planned: profile.library.filter((x) => x.status === 'planned').length,
-    watching: profile.library.filter((x) => x.status === 'watching').length,
-    rewatching: profile.library.filter((x) => x.status === 'rewatching').length,
-    watched: profile.library.filter((x) => x.status === 'watched').length,
+    reading_now: profile.library.filter((x) => x.status === 'reading_now').length,
+ 
+    completed: profile.library.filter((x) => x.status === 'completed').length,
     onHold: profile.library.filter((x) => x.status === 'onHold').length,
     dropped: profile.library.filter((x) => x.status === 'dropped').length,
   };
@@ -39,7 +38,7 @@ export function ProfileLibraryCenter({ profile }: ProfileLibraryCenterProps) {
       </Box>
 
       <Tabs.Root defaultValue={libraryTabs[0]?.key ?? 'planned'} variant="outline">
-        <Tabs.List overflowX="auto" overflowY="hidden">
+        <Tabs.List  overflowX="auto" overflowY="hidden">
           {libraryTabs.map((t) => (
             <Tabs.Trigger key={t.key} value={t.key}>
               <Flex align="center" gap="2">

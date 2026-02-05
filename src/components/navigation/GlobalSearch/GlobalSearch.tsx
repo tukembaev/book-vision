@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { useMemo, useState, type ReactNode } from 'react';
 
-import { AppLink } from './AppLink.tsx';
+import { AppLink } from "../AppLink/AppLink";
 
 import { mockBooksDb } from '@/features/books/mocks/booksDb.mock';
 import { mockCharacterProfilesDb } from '@/features/characters/mocks/characterProfilesDb.mock';

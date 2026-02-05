@@ -1,6 +1,6 @@
 import { Box, Heading, Stack, Text } from '@chakra-ui/react';
 
-import { AppLink } from '@/components/navigation/AppLink';
+import { AppLink } from '@/components/navigation/AppLink/AppLink';
 
 export default function HomePage() {
   return (
