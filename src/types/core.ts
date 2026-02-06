@@ -143,21 +143,6 @@ export interface Challenge {
   rewardPoints: number;
 }
 
-export type FeedItemType = 'review' | 'comment' | 'word' | 'quote' | 'help';
-
-export interface FeedItem {
-  id: string;
-  type: FeedItemType;
-  userId: string;
-  createdAt: string;
-
-  title: string;
-  text: string;
-
-  bookId?: string;
-  characterId?: string;
-}
-
 export interface Quote {
   id: string;
   userId: string;

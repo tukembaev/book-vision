@@ -1,4 +1,5 @@
-import type { ReviewCardData } from './ReviewCard';
+import type { ReviewCardData } from "../ReviewCard";
+
 
 export const mockReviewCards: ReviewCardData[] = [
   {

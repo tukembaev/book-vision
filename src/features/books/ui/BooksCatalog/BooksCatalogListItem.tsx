@@ -8,91 +8,74 @@ export interface BooksCatalogListItemProps {
 }
 
 export function BooksCatalogListItem({ book }: BooksCatalogListItemProps) {
+  const genre = book.genres?.[0] ?? '';
+
   return (
     <AppLink to={`/books/${book.id}`} display="block" _hover={{ textDecoration: 'none' }} _focus={{ outline: 'none' }}>
-      <Box
-        borderWidth="1px"
-        borderRadius="md"
-        overflow="hidden"
-        position="relative"
-        height="320px"
-      >
-        {book.coverUrl ? (
-          <img
-            src={book.coverUrl}
-            alt={book.title}
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              objectPosition: 'center top',
-              transition: 'transform 0.2s ease'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'scale(1)';
-            }}
-          />
-        ) : (
-          <Box bg="gray.100" height="100%" display="flex" alignItems="center" justifyContent="center">
-            <Text color="gray.500" fontSize="lg">
-              Нет обложки
+      <Box>
+        <Box
+          borderRadius="lg"
+          overflow="hidden"
+          position="relative"
+          aspectRatio="3 / 4"
+        >
+          {book.coverUrl ? (
+            <img
+              src={book.coverUrl}
+              alt={book.title}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                objectPosition: 'center top',
+              }}
+            />
+          ) : (
+            <Box bg="gray.100" height="100%" display="flex" alignItems="center" justifyContent="center">
+              <Text color="gray.500" fontSize="lg">
+                Нет обложки
+              </Text>
+            </Box>
+          )}
+
+          <Box
+            position="absolute"
+            top="2"
+            left="2"
+            bg="green.500"
+            color="white"
+            borderRadius="md"
+            px="1.5"
+            py="0.5"
+            lineHeight="1"
+          >
+            <Text fontSize="xs" fontWeight="700">
+              {book.ratings.average.toFixed(1)}
             </Text>
           </Box>
-        )}
-
-        <Box
-          position="absolute"
-          top="3"
-          right="3"
-          bg="green.500"
-          color="white"
-          borderRadius="md"
-          px="2"
-          py="1"
-        >
-          <Text fontSize="sm" fontWeight="700">
-            {book.ratings.average.toFixed(1)}
-          </Text>
         </Box>
 
-        <Box
-          position="absolute"
-          bottom="0"
-          left="0"
-          right="0"
-          p="4"
-          bg={book.coverUrl ? "transparent" : "white"}
-          color={book.coverUrl ? "white" : "black"}
-        >
-          <Stack gap="1">
-            <Heading
-              as="h3"
-              size="sm"
-              fontWeight="600"
-              style={{
-                display: '-webkit-box',
-                WebkitLineClamp: '2',
-                WebkitBoxOrient: 'vertical',
-                overflow: 'hidden',
-              }}
-            >
-              {book.title}
-            </Heading>
-            <Text
-              opacity={0.9}
-              style={{
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-              }}
-            >
-              {book.author}
+        <Stack gap="0" mt="2">
+          <Heading
+            as="h3"
+            fontSize="sm"
+            fontWeight="600"
+            lineHeight="short"
+            style={{
+              display: '-webkit-box',
+              WebkitLineClamp: '2',
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+            }}
+          >
+            {book.title}
+          </Heading>
+          {genre && (
+            <Text fontSize="xs" color="gray.500" mt="0.5">
+              {genre}
             </Text>
-          </Stack>
-        </Box>
+          )}
+        </Stack>
       </Box>
     </AppLink>
   );

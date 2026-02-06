@@ -39,7 +39,7 @@ export function ProfileLibraryCenter({ profile }: ProfileLibraryCenterProps) {
 
       <Tabs.Root defaultValue={libraryTabs[0]?.key ?? 'planned'} variant="outline">
         <Tabs.List  overflowX="auto" overflowY="hidden">
-          {libraryTabs.map((t) => (
+c          {libraryTabs.map((t) => (
             <Tabs.Trigger key={t.key} value={t.key}>
               <Flex align="center" gap="2">
                 <Box as="span" fontSize="sm" lineHeight="1">

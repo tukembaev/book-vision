@@ -10,9 +10,9 @@ export interface BooksCatalogListProps {
 export function BooksCatalogList({ books }: BooksCatalogListProps) {
   return (
     <Grid
-      gap="4"
-      templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', xl: 'repeat(3, 1fr)' }}
-      alignItems="stretch"
+      gap="5"
+      templateColumns={{ base: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)', lg: 'repeat(4, 1fr)', xl: 'repeat(5, 1fr)' }}
+      alignItems="start"
     >
       {books.map((book) => (
         <BooksCatalogListItem key={book.id} book={book} />

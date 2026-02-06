@@ -7,7 +7,7 @@ export function AppLayout() {
   return (
     <Box minH="100vh">
       <Header />
-      <Container as="main" maxW="6xl" py="6">
+      <Container as="main"  py="6">
         <Outlet />
       </Container>
     </Box>
