@@ -52,9 +52,7 @@ export function ProfileActivityCenter({ userId, profile }: ProfileActivityCenter
 
         <Tabs.Content value="comments" pt="4">
           <Box>
-            {mockCommentThreads.map((comment) => (
-              <CommentThread key={comment.id} comment={comment} />
-            ))}
+            <CommentThread comments={mockCommentThreads} />
           </Box>
         </Tabs.Content>
 

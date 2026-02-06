@@ -347,9 +347,7 @@ export default function ArticlePage() {
             </Text>
 
             <Box mt="3">
-              {mockCommentThreads.slice(0, 3).map((comment) => (
-                <CommentThread key={comment.id} comment={comment} />
-              ))}
+              <CommentThread comments={mockCommentThreads.slice(0, 3)} />
             </Box>
           </Box>
 

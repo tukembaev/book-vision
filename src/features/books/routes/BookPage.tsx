@@ -9,7 +9,8 @@ import { getMockBookCharactersByBookId } from '../../characters/mocks/characters
 import { BookTocNav } from '../ui/BookTocNav/BookTocNav';
 import { BookSidebar } from '../ui/BookSidebar/BookSidebar';
 import { BookDescriptionSection } from '../ui/BookDetails/BookDescriptionSection';
-import { BookDiscussionPlaceholder } from '../ui/BookDetails/BookDiscussionPlaceholder';
+import { BookDiscussion } from '../ui/BookDetails/BookDiscussion';
+import { bookDiscussionMock } from '../ui/BookDetails/BookDiscussion.mock';
 import { BookTitleBlock } from '../ui/BookDetails/BookTitleBlock';
 
 export default function BookPage() {
@@ -44,7 +45,7 @@ export default function BookPage() {
         <Stack gap="4">
           <BookTitleBlock book={book} />
           <BookDescriptionSection description={book.description} />
-          <BookDiscussionPlaceholder text="Комментарии к книге появятся здесь." />
+          <BookDiscussion {...bookDiscussionMock} />
         </Stack>
       }
       right={<BookSidebar book={book} parts={parts} characters={characters} />}

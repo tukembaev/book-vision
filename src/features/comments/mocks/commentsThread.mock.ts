@@ -1,3 +1,10 @@
+export interface QuotedComment {
+  authorUsername: string;
+  authorAvatar?: string;
+  createdAt: string;
+  text: string;
+}
+
 export interface CommentThreadItem {
   id: string;
   authorId: string;
@@ -9,7 +16,11 @@ export interface CommentThreadItem {
   repliesCount: number;
   repostsCount: number;
   sharesCount: number;
+  imageUrl?: string;
+  isPinned?: boolean;
+  quotedComment?: QuotedComment;
   popularReply?: CommentThreadItem;
+  replies?: CommentThreadItem[];
 }
 
 export const mockCommentThreads: CommentThreadItem[] = [
@@ -36,6 +47,42 @@ export const mockCommentThreads: CommentThreadItem[] = [
       repostsCount: 1,
       sharesCount: 3,
     },
+    replies: [
+      {
+        id: 'c1-r1',
+        authorId: 'u2',
+        authorUsername: 'literary_critic',
+        text: 'Согласен! А ещё интересно, как Достоевский через Раскольникова показывает кризис нигилизма 1860-х. Это не просто детектив, это философский роман о границах человеческой свободы.',
+        createdAt: '1 ч.',
+        likes: 156,
+        repliesCount: 45,
+        repostsCount: 1,
+        sharesCount: 3,
+        isPinned: true,
+      },
+      {
+        id: 'c1-r2',
+        authorId: 'u11',
+        authorUsername: 'dostoevsky_fan',
+        text: 'Третий раз — это правильно. Я на пятом прочтении наконец понял сцену с Соней. Это вообще ключ ко всему роману.',
+        createdAt: '45 мин.',
+        likes: 89,
+        repliesCount: 12,
+        repostsCount: 0,
+        sharesCount: 1,
+      },
+      {
+        id: 'c1-r3',
+        authorId: 'u12',
+        authorUsername: 'reader_masha',
+        text: 'А мне Свидригайлов больше всего запомнился. Его финал — один из самых сильных моментов в мировой литературе.',
+        createdAt: '30 мин.',
+        likes: 67,
+        repliesCount: 8,
+        repostsCount: 0,
+        sharesCount: 0,
+      },
+    ],
   },
   {
     id: 'c2',
@@ -48,6 +95,7 @@ export const mockCommentThreads: CommentThreadItem[] = [
     repliesCount: 341,
     repostsCount: 12,
     sharesCount: 45,
+    imageUrl: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&h=400&fit=crop',
     popularReply: {
       id: 'c2-r1',
       authorId: 'u4',
@@ -60,18 +108,72 @@ export const mockCommentThreads: CommentThreadItem[] = [
       repostsCount: 3,
       sharesCount: 8,
     },
+    replies: [
+      {
+        id: 'c2-r1',
+        authorId: 'u4',
+        authorUsername: 'philosophy_fan',
+        text: 'Рекомендую после "1984" прочитать "О дивный новый мир" Хаксли. Там другой подход к антиутопии - не через насилие, а через удовольствие и контроль сознания.',
+        createdAt: '4 ч.',
+        likes: 234,
+        repliesCount: 67,
+        repostsCount: 3,
+        sharesCount: 8,
+        isPinned: true,
+      },
+      {
+        id: 'c2-r2',
+        authorId: 'u13',
+        authorUsername: 'dystopia_lover',
+        text: 'Ещё советую "Мы" Замятина — именно от этой книги Оруэлл вдохновился.',
+        createdAt: '3 ч.',
+        likes: 145,
+        repliesCount: 23,
+        repostsCount: 2,
+        sharesCount: 5,
+      },
+    ],
   },
   {
     id: 'c3',
     authorId: 'u5',
     authorUsername: 'classic_lover',
     authorAvatar: undefined,
-    text: 'Перечитываю "Мастера и Маргариту". Булгаков создал невероятный мир, где переплетаются три сюжетные линии. Сатира на советскую действительность, библейская история и любовная драма - всё это работает как единое целое.',
-    createdAt: '1 д.',
-    likes: 1247,
-    repliesCount: 523,
-    repostsCount: 18,
-    sharesCount: 67,
+    text: 'Забудьте мои слова. Эта книга переоценена. И даже после тысячи положительных отзывов люди не хотят признавать недостатки. Критики бесполезны, ничем не могут помочь, и обвиняют самих читателей.\n\nЗачем нам классика, когда нет базового понимания?',
+    createdAt: '2 ч.',
+    likes: 19,
+    repliesCount: 4,
+    repostsCount: 0,
+    sharesCount: 2,
+    quotedComment: {
+      authorUsername: 'bookworm_anna',
+      createdAt: '01.04.2025',
+      text: 'Если честно, не понимаю почему все критикуют классику. Меня она не подводила ни разу. Книги ношу всегда с собой и нет проблем. Да, читать долго, потому что большое количество страниц, но думаю над этим уже работают. Многие издания доступны онлайн, а если нужно купить очно, то и онлайн запись ест...',
+    },
+    popularReply: {
+      id: 'c3-r1',
+      authorId: 'u14',
+      authorUsername: 'book_defender',
+      text: 'Мы не снимаем с себя ответственности о качестве. Все такие критики которые писали негативные отзывы - уже опровергнуты.',
+      createdAt: '2 ч.',
+      likes: 1,
+      repliesCount: 2,
+      repostsCount: 0,
+      sharesCount: 0,
+    },
+    replies: [
+      {
+        id: 'c3-r1',
+        authorId: 'u14',
+        authorUsername: 'book_defender',
+        text: 'Мы не снимаем с себя ответственности о качестве. Все такие критики которые писали негативные отзывы - уже опровергнуты.',
+        createdAt: '2 ч.',
+        likes: 1,
+        repliesCount: 2,
+        repostsCount: 0,
+        sharesCount: 0,
+      },
+    ],
   },
   {
     id: 'c4',
@@ -96,6 +198,42 @@ export const mockCommentThreads: CommentThreadItem[] = [
       repostsCount: 7,
       sharesCount: 19,
     },
+    replies: [
+      {
+        id: 'c4-r1',
+        authorId: 'u7',
+        authorUsername: 'tolkien_scholar',
+        text: 'Да! Толкин писал это как филолог. Он сначала создал языки, а потом уже мир.',
+        createdAt: '1 д.',
+        likes: 445,
+        repliesCount: 112,
+        repostsCount: 7,
+        sharesCount: 19,
+        isPinned: true,
+      },
+      {
+        id: 'c4-r2',
+        authorId: 'u15',
+        authorUsername: 'hobbit_fan',
+        text: 'А как нам везде носить с собой свою ручную ворону и трёх соловьёв, скажите, как?!',
+        createdAt: '15 ч.',
+        likes: 352,
+        repliesCount: 6,
+        repostsCount: 1,
+        sharesCount: 3,
+      },
+      {
+        id: 'c4-r3',
+        authorId: 'u16',
+        authorUsername: 'elf_queen',
+        text: 'две колибри и шмель 💪',
+        createdAt: '15 ч.',
+        likes: 406,
+        repliesCount: 7,
+        repostsCount: 1,
+        sharesCount: 1,
+      },
+    ],
   },
   {
     id: 'c5',
@@ -120,6 +258,7 @@ export const mockCommentThreads: CommentThreadItem[] = [
     repliesCount: 412,
     repostsCount: 15,
     sharesCount: 56,
+    imageUrl: 'https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=400&fit=crop',
     popularReply: {
       id: 'c6-r1',
       authorId: 'u10',
@@ -132,5 +271,30 @@ export const mockCommentThreads: CommentThreadItem[] = [
       repostsCount: 4,
       sharesCount: 12,
     },
+    replies: [
+      {
+        id: 'c6-r1',
+        authorId: 'u10',
+        authorUsername: 'philosophy_reader',
+        text: 'Точно! Лем показывает, что контакт с внеземным разумом невозможен, потому что мы проецируем на него свои категории.',
+        createdAt: '3 д.',
+        likes: 367,
+        repliesCount: 89,
+        repostsCount: 4,
+        sharesCount: 12,
+        isPinned: true,
+      },
+      {
+        id: 'c6-r2',
+        authorId: 'u17',
+        authorUsername: 'space_nerd',
+        text: 'Фильм Тарковского тоже стоит посмотреть, но книга сильнее.',
+        createdAt: '2 д.',
+        likes: 201,
+        repliesCount: 34,
+        repostsCount: 2,
+        sharesCount: 7,
+      },
+    ],
   },
 ];
