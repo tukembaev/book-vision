@@ -47,6 +47,8 @@ export const mockArticlesDb: Article[] = [
     status: { verified: true, verificationType: 'AI' },
     noSpoilers: true,
     shouldRead: { readiness: 'must' },
+    coverUrl:'https://img.championat.com/i/y/m/1705310127760022734.jpg',
+
     content: buildContent(
       'Стоит ли читать «Преступление и наказание»?',
       'Если ты откладывал из-за “тяжести” — вот честная карта: почему это читается быстрее, чем кажется, и что ты получишь в конце.'
@@ -66,6 +68,8 @@ export const mockArticlesDb: Article[] = [
     readingMinutes: 8,
     status: { verified: true, verificationType: 'Community' },
     noSpoilers: true,
+    coverUrl:'https://www.culture.ru/storage/images/4e973389ed7b0f4f18402026e50d9996/982ba184574c1ca83bc5222375422fea.jpg/g_center,c_fill/74309896.jpg',
+
     content: buildContent(
       'Разбор: конфликт “отцов и детей” как спор о языке будущего',
       'Не про “плохих родителей” и “дерзкую молодежь”: конфликт тут о том, кто имеет право на смысл и как рождается новый словарь эпохи.'
@@ -85,6 +89,7 @@ export const mockArticlesDb: Article[] = [
     readingMinutes: 7,
     status: { verified: true, verificationType: 'AI' },
     noSpoilers: true,
+    coverUrl:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxXl_5Zm9nfB3BzidNDksmBoEskgDUXrrW5A&s',
     content: buildContent(
       'Лучшие цитаты и почему они “работают” (Мастер и Маргарита)',
       'Пытаюсь объяснить не “что хотел сказать автор”, а почему некоторые фразы становятся личными паролями для поколения.'
@@ -99,6 +104,7 @@ export const mockArticlesDb: Article[] = [
     excerpt:
       'Это не книга “про любовь”, а про то, как мы учимся жить с тем, что не можем исправить.',
     createdAt: '2026-01-25T08:30:00.000Z',
+    coverUrl:'https://iv.okcdn.ru/videoPreview?id=46932101636&type=32&idx=13&tkn=4-Ie623ZZKo68JRRuH7cA7ZJTrc&fn=external_8',
     likes: 34,
     views: 780,
     noSpoilers: false,
@@ -115,6 +121,8 @@ export const mockArticlesDb: Article[] = [
     likes: 58,
     views: 1900,
     noSpoilers: true,
+    coverUrl:'https://www.deutschland.de/sites/default/files/styles/image_carousel_mobile/public/field_visuals/literature-russia-fyodor-dostoevsky-swetlana-geier_a2_0.jpg?itok=i_ZloYjP',
+
   },
   {
     id: 'a6',
@@ -128,6 +136,8 @@ export const mockArticlesDb: Article[] = [
     likes: 77,
     views: 1620,
     noSpoilers: true,
+    coverUrl:'https://buklya.com/media/article/6601eae01c568.jpg',
+
   },
   {
     id: 'a7',
@@ -142,6 +152,7 @@ export const mockArticlesDb: Article[] = [
     views: 2600,
     noSpoilers: true,
     shouldRead: { readiness: 'must' },
+     coverUrl:'https://www.invictory.org/articles/wp-content/uploads/sites/3/2018/07/maxresdefault-715x400.jpg'
   },
   {
     id: 'a8',
@@ -155,6 +166,8 @@ export const mockArticlesDb: Article[] = [
     likes: 41,
     views: 980,
     noSpoilers: true,
+    coverUrl:'https://storage.gpm-content.ru/s/tv3/st/2016/07/5eb3445224cf2495f832faff0c95bc3b8857f3fc.jpg',
+
   },
   {
     id: 'a9',
@@ -168,7 +181,9 @@ export const mockArticlesDb: Article[] = [
     likes: 64,
     views: 1120,
     noSpoilers: true,
-  },
+    coverUrl:'https://skillbox.ru/upload/setka_images/08545813092021_08fda0244b5397e030ee401fd2bea5b24f78a72b.jpg',
+
+      },
   {
     id: 'a10',
     title: 'Дискуссия: “нужно ли дочитывать книгу, если не идёт?”',
@@ -181,7 +196,9 @@ export const mockArticlesDb: Article[] = [
     likes: 88,
     views: 4100,
     noSpoilers: true,
-  },
+    coverUrl:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgda9tF0DN3-Bc0dGFpVQpGPz0AKa78_nd4w&s',
+
+      },
   {
     id: 'a11',
     title: 'Стоит ли читать «Фауста» сейчас (и зачем он вообще)?',
@@ -195,7 +212,9 @@ export const mockArticlesDb: Article[] = [
     views: 860,
     noSpoilers: true,
     shouldRead: { readiness: 'maybe' },
-  },
+    coverUrl:'https://magazineart.art/wp-content/uploads/photo-1580456929009-8ce1525d6a92-min-1024x678.jpg',
+
+      },
   {
     id: 'a12',
     title: 'Рецензия: «Гарри Поттер» как книга про принадлежность',
@@ -208,7 +227,9 @@ export const mockArticlesDb: Article[] = [
     likes: 39,
     views: 1500,
     noSpoilers: true,
-  },
+    coverUrl:'https://bookmix.ru/notes/img/notes_1471358401.jpg',
+
+      },
   {
     id: 'a13',
     title: 'Лучшие статьи недели: что читали и обсуждали больше всего',
@@ -220,6 +241,7 @@ export const mockArticlesDb: Article[] = [
     createdAt: '2026-01-28T12:30:00.000Z',
     likes: 22,
     views: 900,
+    coverUrl:'https://abrakadabra.fun/uploads/posts/2022-03/1647626123_1-abrakadabra-fun-p-velikii-getsbi-art-1.jpg',
     noSpoilers: true,
   },
   {
@@ -234,7 +256,9 @@ export const mockArticlesDb: Article[] = [
     likes: 75,
     views: 2100,
     noSpoilers: true,
-  },
+    coverUrl:'https://deti.libfl.ru/attachments/attachment/large/61260a983231da6bebc03944-large.jpg',
+
+      },
 ];
 
 export function getMockArticles() {

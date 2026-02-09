@@ -31,15 +31,15 @@ function CurrentlyReadingRow({ item }: { item: CurrentlyReadingItem }) {
       to={`/books/${item.id}`}
       display="flex"
       alignItems="center"
-      gap="3"
-      py="2"
+      gap="4"
+      py="3"
       _hover={{ textDecoration: 'none', bg: 'gray.50' }}
       borderRadius="md"
-      px="1"
+      px="2"
     >
       <Box
-        w="40px"
-        h="55px"
+        w="60px"
+        h="85px"
         borderRadius="md"
         overflow="hidden"
         flexShrink={0}
@@ -55,14 +55,14 @@ function CurrentlyReadingRow({ item }: { item: CurrentlyReadingItem }) {
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
         ) : (
-          <Icon color="gray.400" boxSize="4">
+          <Icon color="gray.400" boxSize="6">
             <ImageIcon />
           </Icon>
         )}
       </Box>
       <Box overflow="hidden">
         <Text
-          fontSize="sm"
+          fontSize="base"
           fontWeight="600"
           lineHeight="short"
           style={{
@@ -73,7 +73,7 @@ function CurrentlyReadingRow({ item }: { item: CurrentlyReadingItem }) {
         >
           {item.title}
         </Text>
-        <Text fontSize="xs" color="gray.500">
+        <Text fontSize="sm" color="gray.500" mt="1">
           {item.genre}
         </Text>
       </Box>
@@ -93,7 +93,7 @@ function CurrentlyReadingColumn({
       <Heading as="h4" fontSize="sm" fontWeight="700" mb="3">
         {title}
       </Heading>
-      <Stack gap="1">
+      <Stack gap="2">
         {items.map((item) => (
           <CurrentlyReadingRow key={item.id} item={item} />
         ))}

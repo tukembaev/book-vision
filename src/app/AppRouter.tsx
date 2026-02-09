@@ -12,10 +12,14 @@ import BookPlaylistsPage from '../pages/BookPlaylistsPage'
 import CharactersPage from '../pages/CharactersPage'
 import CharacterPage from '../pages/CharacterPage'
 import ChallengesPage from '../pages/ChallengesPage'
+import ChallengeDetailPage from '../pages/ChallengeDetailPage'
 import ArticlesPage from '../pages/ArticlesPage'
 import ArticlePage from '../pages/ArticlePage'
 import ReviewPage from '../pages/ReviewPage'
 import UserProfilePage from '../pages/UserProfilePage'
+import BookClubsPage from '../pages/BookClubsPage'
+import BookClubPage from '../pages/BookClubPage'
+import DebateDetailPage from '../pages/DebateDetailPage'
 import NotFoundPage from '../pages/NotFoundPage'
 
 export function AppRouter() {
@@ -34,6 +38,10 @@ export function AppRouter() {
           <Route path="characters" element={<CharactersPage />} />
           <Route path="characters/:characterId" element={<CharacterPage />} />
           <Route path="challenges" element={<ChallengesPage />} />
+          <Route path="challenges/:challengeId" element={<ChallengeDetailPage />} />
+          <Route path="clubs" element={<BookClubsPage />} />
+          <Route path="clubs/:clubId" element={<BookClubPage />} />
+          <Route path="debates/:debateId" element={<DebateDetailPage />} />
           <Route path="articles" element={<ArticlesPage />} />
           <Route path="articles/:articleId" element={<ArticlePage />} />
           <Route path="reviews/:reviewId" element={<ReviewPage />} />

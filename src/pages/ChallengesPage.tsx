@@ -1,33 +1,40 @@
-import { Box, Heading, Stack, Text } from '@chakra-ui/react';
-import { useMemo, useState } from 'react';
+import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/react';
 
 import {
-  getMockChallengesByStatus,
-  type ChallengeStatus,
-} from '../features/challenges/mocks/challengesDb.mock';
+  mockMyChallenges,
+  mockFeaturedChallenges,
+  mockCommunityChallenges,
+} from '../features/challenges/mocks/challengesMock';
 
-import { ChallengesTabs } from '../features/challenges/ui/ChallengesTabs/ChallengesTabs.tsx';
-import { ChallengesList } from '../features/challenges/ui/ChallengesList/ChallengesList.tsx';
+import { MyChallengesSection } from '../features/challenges/ui/MyChallengesSection/MyChallengesSection';
+import { FeaturedChallengesSection } from '../features/challenges/ui/FeaturedChallengesSection/FeaturedChallengesSection';
+import { CommunityChallengesSection } from '../features/challenges/ui/CommunityChallengesSection/CommunityChallengesSection';
 
 export default function ChallengesPage() {
-  const [tab, setTab] = useState<ChallengeStatus>('active');
-
-  const challenges = useMemo(() => getMockChallengesByStatus(tab), [tab]);
-
   return (
-    <Stack gap="4">
-      <Box>
-        <Heading as="h2" size="md" fontWeight="700">
-          Челленджи
-        </Heading>
-        <Text mt="2" opacity={0.8}>
-          Навигационно простой раздел: активные, выполненные и прогресс (mock).
-        </Text>
-      </Box>
+    <Box maxW="1200px" mx="auto" px="4" py="6">
+      <Stack gap="10">
+        {/* Page header */}
+        <Flex justify="space-between" align="center">
+          <Box>
+            <Heading as="h2" fontSize="2xl" fontWeight="800">
+              Челленджи
+            </Heading>
+            <Text mt="1" fontSize="sm" color="gray.500">
+              Принимай вызовы, читай книги и соревнуйся с другими читателями
+            </Text>
+          </Box>
+        </Flex>
 
-      <ChallengesTabs value={tab} onChange={setTab} />
+        {/* Section 1 — My accepted challenges with progress */}
+        <MyChallengesSection challenges={mockMyChallenges} />
 
-      <ChallengesList challenges={challenges} />
-    </Stack>
+        {/* Section 2 — Featured (site) challenges */}
+        <FeaturedChallengesSection challenges={mockFeaturedChallenges} />
+
+        {/* Section 3 — Best community challenges */}
+        <CommunityChallengesSection challenges={mockCommunityChallenges} />
+      </Stack>
+    </Box>
   );
 }

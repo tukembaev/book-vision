@@ -1,4 +1,5 @@
 import type { CharacterProfile } from '@/types/core';
+import { getMockBookById } from '@/features/books/mocks/booksDb.mock';
 
 export const mockCharacterProfilesDb: CharacterProfile[] = [
   {
@@ -6,7 +7,7 @@ export const mockCharacterProfilesDb: CharacterProfile[] = [
     bookId: '1',
     name: 'Евгений Базаров',
     aliases: ['Базаров'],
-    imageUrl: undefined,
+    imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQH3ickUcXbXLQFNfkJOmDOu3NZnhxRCqg77fF7s67Iud2sjJrlFlIAVof-9fviyXXQTZX-3gKYCP8Hg-wEDt8hmCJGB6_-UMFk-FVHarg&s=10',
     stats: {
       age: 'около 25',
       height: '—',
@@ -34,7 +35,7 @@ export const mockCharacterProfilesDb: CharacterProfile[] = [
     bookId: '1',
     name: 'Аркадий Кирсанов',
     aliases: ['Аркадий'],
-    imageUrl: undefined,
+    imageUrl: 'https://robohash.org/Arkady-Kirsanov.png?set=set5',
     stats: {
       age: 'около 23',
       height: '—',
@@ -58,7 +59,7 @@ export const mockCharacterProfilesDb: CharacterProfile[] = [
     bookId: '2',
     name: 'Родион Раскольников',
     aliases: ['Родя'],
-    imageUrl: undefined,
+    imageUrl: 'https://robohash.org/Raskolnikov-Dostoyevsky.png?set=set5',
     stats: {
       age: 'около 23',
       height: '—',
@@ -82,7 +83,7 @@ export const mockCharacterProfilesDb: CharacterProfile[] = [
     bookId: '2',
     name: 'Соня Мармеладова',
     aliases: ['Соня'],
-    imageUrl: undefined,
+    imageUrl: 'https://robohash.org/Sonya-Marmeladova.png?set=set5',
     stats: {
       age: 'около 18',
       height: '—',
@@ -106,7 +107,7 @@ export const mockCharacterProfilesDb: CharacterProfile[] = [
     bookId: '3',
     name: 'Воланд',
     aliases: ['профессор'],
-    imageUrl: undefined,
+    imageUrl: 'https://robohash.org/Woland-Bulgakov.png?set=set5',
     stats: {
       age: '—',
       height: '—',
@@ -131,7 +132,7 @@ export const mockCharacterProfilesDb: CharacterProfile[] = [
     bookId: '3',
     name: 'Маргарита',
     aliases: ['—'],
-    imageUrl: undefined,
+    imageUrl: 'https://robohash.org/Margarita-Bulgakov.png?set=set5',
     stats: {
       age: 'около 30',
       height: '—',
@@ -166,6 +167,7 @@ export interface CharacterCatalogEntry {
   descriptionNoSpoilers: string;
   popularityScore: number;
   favoritesCount: number;
+  imageUrl?: string;
 }
 
 export function getMockCharactersCatalogEntries() {
@@ -176,8 +178,83 @@ export function getMockCharactersCatalogEntries() {
     aliases: c.aliases,
     descriptionNoSpoilers: c.descriptionNoSpoilers,
     popularityScore: c.illustrations.length * 10 + c.quotesNoSpoilers.length * 5,
-    favoritesCount: c.favoritedByUserIds.length,
+    favoritesCount: c.quotesNoSpoilers.length * 7,
+    imageUrl: c.imageUrl,
   }));
 
   return base;
+}
+
+export function getFeaturedCharacter(): CharacterCatalogEntry & { quote: string; socialStatus: string } {
+  const sorted = getMockCharactersCatalogEntries().sort(
+    (a, b) => b.popularityScore - a.popularityScore,
+  );
+  const top = sorted[0];
+  const profile = mockCharacterProfilesDb.find((c) => c.id === top.id)!;
+  return {
+    ...top,
+    quote: profile.quotesNoSpoilers[0] ?? '',
+    socialStatus: profile.stats.socialStatus ?? '—',
+  };
+}
+
+export function getPopularCharacters(): (CharacterCatalogEntry & { quote: string })[] {
+  const sorted = getMockCharactersCatalogEntries().sort(
+    (a, b) => b.popularityScore - a.popularityScore,
+  );
+  const featuredId = sorted[0]?.id;
+  return sorted
+    .filter((c) => c.id !== featuredId)
+    .slice(0, 4)
+    .map((c) => {
+      const profile = mockCharacterProfilesDb.find((p) => p.id === c.id);
+      return {
+        ...c,
+        quote: profile?.quotesNoSpoilers[0] ?? '',
+      };
+    });
+}
+
+export interface CharactersByBookGroup {
+  bookId: string;
+  bookTitle: string;
+  characters: { id: string; name: string }[];
+}
+
+export function getCharactersByBook(): CharactersByBookGroup[] {
+  const groups = new Map<string, { id: string; name: string }[]>();
+
+  for (const c of mockCharacterProfilesDb) {
+    const arr = groups.get(c.bookId) ?? [];
+    arr.push({ id: c.id, name: c.name });
+    groups.set(c.bookId, arr);
+  }
+
+  const results: CharactersByBookGroup[] = [];
+  for (const [bookId, chars] of groups.entries()) {
+    const book = getMockBookById(bookId);
+    results.push({
+      bookId,
+      bookTitle: book?.title ?? 'Неизвестная книга',
+      characters: chars,
+    });
+  }
+  return results;
+}
+
+export function getCatalogEntriesByBookId(bookId: string): CharacterCatalogEntry[] {
+  return getMockCharactersCatalogEntries()
+    .filter((c) => c.bookId === bookId)
+    .sort((a, b) => b.popularityScore - a.popularityScore);
+}
+
+export function getRandomQuotes(): { characterName: string; characterId: string; quote: string }[] {
+  const all: { characterName: string; characterId: string; quote: string }[] = [];
+  for (const c of mockCharacterProfilesDb) {
+    for (const q of c.quotesNoSpoilers) {
+      all.push({ characterName: c.name, characterId: c.id, quote: q });
+    }
+  }
+  // Deterministic shuffle based on index
+  return all.sort((a, b) => a.quote.length - b.quote.length).slice(0, 3);
 }

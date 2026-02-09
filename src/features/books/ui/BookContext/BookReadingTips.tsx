@@ -1,4 +1,4 @@
-import { Box, Heading, Stack, Text } from '@chakra-ui/react';
+import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/react';
 
 import type { BookReadingTip } from '../../mocks/bookContextDb.mock';
 
@@ -7,25 +7,40 @@ export interface BookReadingTipsProps {
 }
 
 export function BookReadingTips({ tips }: BookReadingTipsProps) {
+  if (tips.length === 0) {
+    return null;
+  }
+
   return (
-    <Box borderWidth="1px" borderRadius="md" p="4">
-      <Heading as="h3" size="sm" fontWeight="600">
-        Советы перед чтением
+    <Box
+      borderWidth="1px"
+      borderRadius="xl"
+      p="5"
+      bg="purple.50"
+    >
+      <Heading as="h3" fontSize="sm" fontWeight="700" mb="3" color="purple.700">
+        💡 Советы перед чтением
       </Heading>
 
-      {tips.length === 0 ? (
-        <Text mt="2" opacity={0.85}>
-          Пока нет советов (mock).
-        </Text>
-      ) : (
-        <Stack mt="3" gap="2">
-          {tips.map((t) => (
-            <Text key={t.id} opacity={0.85}>
+      <Stack gap="2.5">
+        {tips.map((t) => (
+          <Flex
+            key={t.id}
+            gap="3"
+            align="flex-start"
+            bg="white"
+            borderRadius="lg"
+            p="3"
+          >
+            <Text fontSize="lg" flexShrink={0} lineHeight="1">
+              {t.icon ?? '📌'}
+            </Text>
+            <Text fontSize="sm" color="gray.700" lineHeight="tall">
               {t.text}
             </Text>
-          ))}
-        </Stack>
-      )}
+          </Flex>
+        ))}
+      </Stack>
     </Box>
   );
 }

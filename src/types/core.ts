@@ -221,7 +221,7 @@ export interface Article {
   views: number;
 
   readingMinutes?: number;
-
+  coverUrl?:string;
   status?: {
     verified: boolean;
     verificationType?: 'AI' | 'Community';

@@ -4,7 +4,7 @@ import { BooksCarousel } from '@/components/home/BooksCarousel/BooksCarousel';
 import { CurrentlyReadingSection } from '@/components/home/CurrentlyReadingSection/CurrentlyReadingSection';
 import { ReviewCard } from '@/components/ReviewCard';
 import { ArticleCard } from '@/components/ArticleCard';
-import { CollectionCard } from '@/components/CollectionCard';
+import { CollectionsSection } from '@/components/home/CollectionsSection/CollectionsSection';
 
 import {
   mockCarouselBooks,
@@ -30,7 +30,7 @@ export default function HomePage() {
           popular={mockPopular}
         />
 
-        {/* 3 — Articles (left) + Reviews & Collections (right) */}
+        {/* 3 — Articles (left) + Reviews (right) */}
         <Flex gap="6" direction={{ base: 'column', lg: 'row' }} align="flex-start">
           {/* Left — Articles */}
           <Box flex="3" minW="0">
@@ -47,7 +47,7 @@ export default function HomePage() {
             </Grid>
           </Box>
 
-          {/* Right — Reviews + Collections */}
+          {/* Right — Reviews */}
           <Box flex="2" minW="0">
             {/* Reviews */}
             <Heading as="h3" fontSize="lg" fontWeight="700" mb="4">
@@ -59,20 +59,11 @@ export default function HomePage() {
               ))}
             </Stack>
 
-            {/* Collections */}
-            <Heading as="h3" fontSize="lg" fontWeight="700" mb="4">
-              Коллекции
-            </Heading>
-            <Grid
-              templateColumns={{ base: '1fr', sm: 'repeat(1, 1fr)' }}
-              gap="4"
-            >
-              {mockCollections.map((col) => (
-                <CollectionCard key={col.id} collection={col} />
-              ))}
-            </Grid>
           </Box>
         </Flex>
+
+        {/* 4 — Collections — full width horizontal */}
+        <CollectionsSection collections={mockCollections} />
       </Stack>
     </Box>
   );

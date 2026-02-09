@@ -41,17 +41,13 @@ export function ArticleCard({ article }: ArticleCardProps) {
           justifyContent="center"
           overflow="hidden"
         >
-          {article.coverUrl ? (
+          
             <img
               src={article.coverUrl}
               alt={article.title}
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
-          ) : (
-            <Icon color="gray.400" boxSize="10">
-              <ImageIcon />
-            </Icon>
-          )}
+       
         </Box>
 
         <Box p="4">

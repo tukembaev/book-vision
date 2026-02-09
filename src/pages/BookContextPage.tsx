@@ -52,29 +52,29 @@ export default function BookContextPage() {
     <ThreeColumnLayout
       left={<BookTocNav book={book} parts={parts} />}
       center={
-        <Stack gap="4">
+        <Stack gap="6">
           <Box>
             <Heading as="h2" size="md" fontWeight="700">
               Факты и контекст
             </Heading>
-            <Text mt="1" opacity={0.8}>
-              {book.title}
+            <Text mt="1" fontSize="sm" color="gray.500">
+              Исторический, культурный и социальный фон книги «{book.title}»
             </Text>
           </Box>
 
           <BookContextBlocks blocks={contextBlocks} />
 
-          <Box>
-            <Heading as="h3" size="sm" fontWeight="600">
-              Язык и слова
-            </Heading>
-            <Text mt="2" opacity={0.8}>
-              Сложные или устаревшие слова (mock).
-            </Text>
-          </Box>
-          <BookWordsList words={words} />
-
           <BookReadingTips tips={tips} />
+
+          <Box>
+            <Heading as="h3" fontSize="md" fontWeight="700" mb="1">
+              📖 Язык и ключевые понятия
+            </Heading>
+            <Text fontSize="sm" color="gray.500" mb="4">
+              Слова и термины, которые помогут лучше понять текст
+            </Text>
+            <BookWordsList words={words} />
+          </Box>
         </Stack>
       }
       right={<BookSidebar book={book} parts={parts} characters={characters} />}

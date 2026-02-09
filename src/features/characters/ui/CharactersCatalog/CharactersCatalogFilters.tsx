@@ -40,31 +40,6 @@ export function CharactersCatalogFilters({
 
       <Box>
         <Heading as="h3" size="xs" fontWeight="600">
-          Книга
-        </Heading>
-        <Flex mt="2" gap="2" wrap="wrap">
-          <Button
-            size="sm"
-            variant={!activeBookId ? 'solid' : 'outline'}
-            onClick={() => onBookChange(null)}
-          >
-            все
-          </Button>
-          {books.map((b) => (
-            <Button
-              key={b.id}
-              size="sm"
-              variant={activeBookId === b.id ? 'solid' : 'outline'}
-              onClick={() => onBookChange(b.id)}
-            >
-              {b.title}
-            </Button>
-          ))}
-        </Flex>
-      </Box>
-
-      <Box>
-        <Heading as="h3" size="xs" fontWeight="600">
           Сортировка
         </Heading>
         <Flex mt="2" gap="2" wrap="wrap">

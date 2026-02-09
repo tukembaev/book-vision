@@ -576,27 +576,7 @@ export default function ArticlePage() {
               )}
             </Box>
 
-            <Box borderWidth="1px" borderRadius="md" p="4">
-              <Heading as="h3" size="sm" fontWeight="700">
-                Показывать в ленте
-              </Heading>
-              <Text mt="2" fontSize="sm" opacity={0.8}>
-                Влияет на страницу “Статьи сообщества”.
-              </Text>
-
-              <Stack mt="3" gap="2">
-                {articleSectionOrder.map((s) => (
-                  <Checkbox.Root
-                    key={s.id}
-                    checked={visibleSections[s.id]}
-                    onCheckedChange={() => toggleSection(s.id)}
-                  >
-                    <Checkbox.Control />
-                    <Checkbox.Label>{s.title}</Checkbox.Label>
-                  </Checkbox.Root>
-                ))}
-              </Stack>
-            </Box>
+         
           </Stack>
         </Box>
       }
