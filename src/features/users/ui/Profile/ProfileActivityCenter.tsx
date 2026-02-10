@@ -2,11 +2,12 @@ import { Box, Heading, Stack, Tabs, Text } from '@chakra-ui/react';
 
 import { ReviewCard } from '@/components/ReviewCard/ReviewCard';
 import { mockReviewCards } from '@/components/ReviewCard/mocks/ReviewCard.mock';
-import { getMockBookById } from '@/features/books/mocks/booksDb.mock';
 import { CommentThread } from '@/features/comments/ui/CommentThread/CommentThread';
 import { mockCommentThreads } from '@/features/comments/mocks/commentsThread.mock';
 
 import type { UserProfileDashboard } from '../../mocks/userProfileDb.mock';
+import { ReadingExperienceCard } from './ReadingExperience/ReadingExperienceCard';
+import { mockReadingNotes } from './ReadingExperience/readingExperience.mock';
 
 export interface ProfileActivityCenterProps {
   userId: string;
@@ -22,7 +23,12 @@ const activityTabs: Array<{ key: ActivityTabKey; title: string }> = [
 ];
 
 export function ProfileActivityCenter({ userId, profile }: ProfileActivityCenterProps) {
-  const reading = [...profile.reading].sort((a, b) => (a.startedAt < b.startedAt ? 1 : -1));
+  void userId;
+  void profile;
+
+  const sortedNotes = [...mockReadingNotes].sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+  );
 
   return (
     <Stack gap="5">
@@ -57,28 +63,13 @@ export function ProfileActivityCenter({ userId, profile }: ProfileActivityCenter
         </Tabs.Content>
 
         <Tabs.Content value="reading" pt="4">
-          {reading.length === 0 ? (
-            <Text opacity={0.8}>Пока нет записей (mock).</Text>
+          {sortedNotes.length === 0 ? (
+            <Text opacity={0.6} fontSize="sm">Пока нет заметок.</Text>
           ) : (
             <Stack gap="3">
-              {reading.map((x) => {
-                const book = getMockBookById(x.bookId);
-
-                return (
-                  <Box key={`${x.status}-${x.bookId}-${x.startedAt}`} borderWidth="1px" borderRadius="md" p="3">
-                    <Heading as="h4" size="xs" fontWeight="700">
-                      {book?.title ?? `Книга ${x.bookId}`}
-                    </Heading>
-                    <Text mt="1" fontSize="sm" opacity={0.8}>
-                      Статус: {x.status === 'reading' ? 'читаю' : 'прочитал'}
-                    </Text>
-                    <Text mt="1" fontSize="sm" opacity={0.75}>
-                      {x.startedAt}
-                      {x.finishedAt ? ` → ${x.finishedAt}` : ''}
-                    </Text>
-                  </Box>
-                );
-              })}
+              {sortedNotes.map((note) => (
+                <ReadingExperienceCard key={note.id} note={note} />
+              ))}
             </Stack>
           )}
         </Tabs.Content>

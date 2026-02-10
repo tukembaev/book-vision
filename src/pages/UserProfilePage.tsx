@@ -16,6 +16,8 @@ import { ProfileStatsCenter } from '../features/users/ui/Profile/ProfileStatsCen
 import { ProfileActivityCenter } from '../features/users/ui/Profile/ProfileActivityCenter.tsx';
 import { ProfileHelpCenter } from '../features/users/ui/Profile/ProfileHelpCenter.tsx';
 import { ProfileChallengesCenter } from '../features/users/ui/Profile/ProfileChallengesCenter.tsx';
+import { ProfileSavedCenter } from '../features/users/ui/Profile/SavedCenter/ProfileSavedCenter.tsx';
+import { ProfileFriendsCenter } from '../features/users/ui/Profile/Friends/ProfileFriendsCenter.tsx';
 
 export default function UserProfilePage() {
   const { userId } = useParams();
@@ -81,13 +83,17 @@ export default function UserProfilePage() {
                   {t.key === 'library' ? (
                     <ProfileLibraryV2Center />
                   ) : t.key === 'stats' ? (
-                    <ProfileStatsCenter />
+                    <ProfileStatsCenter user={user} profile={profile} />
                   ) : t.key === 'activity' ? (
                     <ProfileActivityCenter userId={userId} profile={profile} />
                   ) : t.key === 'help' ? (
                     <ProfileHelpCenter profile={profile} />
                   ) : t.key === 'challenges' ? (
                     <ProfileChallengesCenter />
+                  ) : t.key === 'saved' ? (
+                    <ProfileSavedCenter />
+                  ) : t.key === 'friends' ? (
+                    <ProfileFriendsCenter />
                   ) : (
                     <ProfileLibraryV2Center />
                   )}

@@ -6,7 +6,9 @@ export type ProfileSection =
   | 'stats'
   | 'activity'
   | 'help'
-  | 'challenges';
+  | 'challenges'
+  | 'saved'
+  | 'friends';
 
 export type VerificationStatus = 'AI' | 'Community' | 'None';
 
@@ -260,6 +262,8 @@ export function getProfileSectionFromSearch(value: string | null): ProfileSectio
     case 'activity':
     case 'help':
     case 'challenges':
+    case 'saved':
+    case 'friends':
       return value;
     default:
       return 'library';
@@ -278,8 +282,10 @@ export function getDefaultProfileSections(_isSelf: boolean) {
     { key: 'library', title: 'Библиотека' },
     { key: 'stats', title: 'Статистика' },
     { key: 'activity', title: 'Активность' },
-    { key: 'help', title: 'Помощь сообществу ⭐' },
+    { key: 'help', title: 'Помощь сообществу' },
     { key: 'challenges', title: 'Челленджи' },
+    { key: 'saved', title: 'Избранное' },
+    { key: 'friends', title: 'Друзья' },
   ];
 
   return sections;
