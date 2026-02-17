@@ -1,5 +1,5 @@
 import { Box, Button, Grid, Stack, Text } from '@chakra-ui/react';
-import { useMemo } from 'react';
+import { use, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { mockBooksDb } from '../features/books/mocks/booksDb.mock';
